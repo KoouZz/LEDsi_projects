@@ -16,12 +16,11 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             Form1_InitComp();
-            login_Form();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            login_Form();
         }
 
         private void login_Form()
@@ -33,10 +32,38 @@ namespace WindowsFormsApp1
             this.MaximizeBox = false;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void work_Form()
         {
-            
+            this.Width = 1920;
+            this.Height = 1080;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            Controls.Cast<Control>().ToList().ForEach((ctrl) => ctrl.Visible = false);
         }
+
+        private void errorUser()
+        {
+            this.Width = 800;
+            this.Height = 600;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            //
+            //label - error
+            //
+            Label error = new Label();
+            Controls.Add(error);
+            error.Show();
+            error.Width = 550;
+            error.Height = 50;
+            error.Location = new Point(this.Width/2 - error.Width/2, 400);
+            error.ForeColor = Color.Red;
+            error.Font = new Font(FontFamily.GenericSansSerif, 16F, FontStyle.Bold);
+            error.Text = "Error. User not found. Please try to login in again.";
+        }
+
+        
 
         private void Form1_InitComp()
         {
@@ -56,6 +83,20 @@ namespace WindowsFormsApp1
         private void reg_Click(object sender, EventArgs e)
         {
             new Form2(textBox1.Text, textBox2.Text).ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string login = "KoouZz",
+                password = "123321";
+            if ((this.textBox1.Text == login) && (this.textBox2.Text == password))
+            {
+                work_Form();
+            }
+            else
+            {
+                errorUser();
+            }
         }
     }
 }

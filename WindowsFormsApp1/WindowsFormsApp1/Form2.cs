@@ -16,11 +16,12 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
             Form2_InitComp();
-            this.Width = 800;
-            this.Height = 600;
+            this.Width = 420;
+            this.Height = 300;
             this.StartPosition = FormStartPosition.CenterScreen;
             label2.Text = login;
-
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -28,10 +29,11 @@ namespace WindowsFormsApp1
             
         }
 
-        public void label2_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-
+            
         }
+
 
         private void Form2_InitComp ()
         {
@@ -121,11 +123,10 @@ namespace WindowsFormsApp1
             //
             Button button1 = new Button();
             Controls.Add(button1);
-            button1.Text = "Registration";
-            button1.Size = new Size(160, 30);
-            button1.Location = new Point((psw.Location.X + psw.Width - label6.Location.X)/2 - button1.Width/2, label6.Location.Y + label6.Height + 10);
+            button1.Text = "Sign in";
+            button1.Size = new Size(80, 30);
+            button1.Location = new Point(this.Width/2 - button1.Width/2, label6.Location.Y + label6.Height + 10);
+            button1.Click += button1_Click;
         }
-
-
     }
 }
