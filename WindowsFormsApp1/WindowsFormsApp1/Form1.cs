@@ -21,12 +21,14 @@ namespace WindowsFormsApp1
         private void Form1_Load(object sender, EventArgs e)
         {
             login_Form();
+            textBox1.Text = "KoouZz";
+            textBox2.Text = "123321";
         }
 
         private void login_Form()
         {
-            this.Width = 800;
-            this.Height = 600;
+            Width = 800;
+            Height = 600;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -34,12 +36,24 @@ namespace WindowsFormsApp1
 
         private void work_Form()
         {
-            this.Width = 1920;
-            this.Height = 1080;
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
-            Controls.Cast<Control>().ToList().ForEach((ctrl) => ctrl.Visible = false);
+            this.Width = 1200;
+            this.Height = 600;
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = new Point(10, 10);
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.MaximizeBox = true;
+            Controls.Cast<Control>().ToList().ForEach(i => i.Visible = false);
+
+            //
+            // button - dataIN
+            //
+            Button dataIN = new Button();
+            dataIN.Size = new Size(100, 30);
+            dataIN.Text = "Enter data";
+            dataIN.Click += dataIN_Click;
+            dataIN.Location = new Point(this.Width/2 - dataIN.Width/2, this.Height/2 - dataIN.Height/2);
+            dataIN.Anchor = AnchorStyles.None;
+            Controls.Add(dataIN);
         }
 
         private void errorUser()
@@ -82,7 +96,7 @@ namespace WindowsFormsApp1
 
         private void reg_Click(object sender, EventArgs e)
         {
-            new Form2(textBox1.Text, textBox2.Text).ShowDialog();
+            new Form2(textBox1.Text, textBox2.Text, "reg").ShowDialog();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -97,6 +111,12 @@ namespace WindowsFormsApp1
             {
                 errorUser();
             }
+        }
+
+        private void dataIN_Click(object sender, EventArgs e)
+        {
+            Form2 dataForm = new Form2("KoouZz", "123321", "dataIN");
+            dataForm.ShowDialog();
         }
     }
 }
