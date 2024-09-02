@@ -12,7 +12,11 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : Form
     {
-        int count = 1;
+        private int count = 1;
+        public int Cnt
+        {
+            get { return count; }
+        }
         public Form2(string login_sgn, string psw, string type)
         {
             InitializeComponent();
@@ -24,10 +28,16 @@ namespace WindowsFormsApp1
             
         }
 
+        private void b_sendData_Click(object sender, EventArgs e)
+        {
+            Close();
+
+        }
         private void button1_Click(object sender, EventArgs e)
         {
 
         }
+
         private void b_add_Click(object sender, EventArgs e)
         {
             if (count < 5)
@@ -80,6 +90,7 @@ namespace WindowsFormsApp1
                 Controls.Add(tb_count_c);
             }
         }
+
         private void b_rmv_Click(object sender, EventArgs e)
         {
             if (count > 1)
@@ -97,6 +108,7 @@ namespace WindowsFormsApp1
                 count--;
             }
         }
+
         private void Form2_InitComp (string type_form)
         {
             if (type_form == "reg")
@@ -197,13 +209,21 @@ namespace WindowsFormsApp1
             {
                 data_Form();
                 //
+                //button - b_sendData
+                //
+                Button b_sendData = new Button();
+                b_sendData.Text = "Save";
+                b_sendData.Size = new Size(60, 30);
+                b_sendData.Location = new Point(20, 283 - b_sendData.Height - 20);
+                b_sendData.Click += b_sendData_Click;
+                Controls.Add(b_sendData);
+                //
                 //button - b_add
                 //
                 Button b_add = new Button();
                 b_add.Text = "+";
                 b_add.Size = new Size(30, 30);
                 b_add.Location = new Point(20, 20);
-                b_add.Anchor = AnchorStyles.None;
                 b_add.Click += b_add_Click;
                 Controls.Add(b_add);
                 //
@@ -227,6 +247,7 @@ namespace WindowsFormsApp1
                 //textbox - tb_sizeW
                 //
                 TextBox tb_sizeW = new TextBox();
+                tb_sizeW.Name = "tb_sizeW";
                 tb_sizeW.Size = new Size(40, 30);
                 tb_sizeW.Location = new Point(l_No.Location.X + l_No.Width + 40, l_No.Location.Y);
                 tb_sizeW.TextAlign = HorizontalAlignment.Center;
@@ -282,6 +303,7 @@ namespace WindowsFormsApp1
 
             }
         }
+
         private void data_Form()
         {
             this.Width = 380;

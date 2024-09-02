@@ -12,6 +12,14 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        private int count = 1;
+        private string key = "";
+        public string keyAc
+        {
+            get { return key; }
+            set { key = value; }
+        }
+
         public Form1()
         {
             InitializeComponent();
@@ -42,6 +50,7 @@ namespace WindowsFormsApp1
             this.Location = new Point(10, 10);
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.MaximizeBox = true;
+            this.BackColor = System.Drawing.Color.White;
             Controls.Cast<Control>().ToList().ForEach(i => i.Visible = false);
 
             //
@@ -54,6 +63,40 @@ namespace WindowsFormsApp1
             dataIN.Location = new Point(this.Width/2 - dataIN.Width/2, this.Height/2 - dataIN.Height/2);
             dataIN.Anchor = AnchorStyles.None;
             Controls.Add(dataIN);
+
+
+
+            if (keyAc == "param")
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    //
+                    //label - null
+                    //
+                    Label l_null = new Label();
+                    l_null.Text = "";
+                    l_null.Size = new Size(10, 40);
+                    l_null.Location = new Point(20, 600 - 40 - l_null.Height - 30 * i);
+                    Controls.Add(l_null);
+                    //
+                    //label - number
+                    //
+                    Label l_number = new Label();
+                    l_number.Text = "Type " + Convert.ToString(i + 1);
+                    l_number.Size = new Size(60, 20);
+                    l_number.Location = new Point(20, 600 - 40 - l_null.Height - l_number.Height - 30 * i);
+                    Controls.Add(l_number);
+                    //
+                    //picturebox
+                    //
+                    PictureBox pb_type = new PictureBox();
+                    pb_type.Size = new Size(30, 30);
+                    pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
+                    Pen blackPen = new Pen(Color.Black, 2);
+                    pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type1.png");
+                    Controls.Add(pb_type);
+                }
+            }
         }
 
         private void errorUser()
@@ -117,6 +160,10 @@ namespace WindowsFormsApp1
         {
             Form2 dataForm = new Form2("KoouZz", "123321", "dataIN");
             dataForm.ShowDialog();
+            count = dataForm.Cnt;
+            work_Form();
+            keyAc = "param";
+
         }
     }
 }
