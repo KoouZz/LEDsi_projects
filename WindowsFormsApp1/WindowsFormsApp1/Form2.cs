@@ -34,11 +34,30 @@ namespace WindowsFormsApp1
         }
         private void b_sendData_Click(object sender, EventArgs e)
         {
+            string kk = "empty";
             for (int i = 0; i < count; i++)
             {
-                //type.Add(new List<int>() {Convert.ToInt32(tb_sizeW.Text), Convert.ToInt32(tb_sizeH.Text), Convert.ToInt32(tb_count.Text) });
+                if ((Controls.Find($"tb_sizeW{i}", true).FirstOrDefault().Text != "") && 
+                    (Controls.Find($"tb_sizeH{i}", true).FirstOrDefault().Text != "") && 
+                    (Controls.Find($"tb_count{i}", true).FirstOrDefault().Text != ""))
+                {
+                    kk = "done";
+                }
             }
-            Close();
+
+            if(kk =="done")
+            {
+                Close();
+            } else
+            {
+                Label err = new Label();
+                err.Text = "Заполните все поля в форме";
+                err.Size = new Size(100, 60);
+                err.TextAlign = ContentAlignment.TopCenter;
+                err.ForeColor = Color.Red;
+                err.Location = new Point(7, 100);
+                Controls.Add(err);
+            }
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -86,7 +105,6 @@ namespace WindowsFormsApp1
                 tb_sizeH_c.Name = $"tb_sizeH{count}";
                 tb_sizeH_c.Location = new Point(l_x_c.Location.X + l_x_c.Width + 5, l_x_c.Location.Y);
                 tb_sizeH_c.TextAlign = HorizontalAlignment.Center;
-                Console.WriteLine(Controls.IndexOf(tb_sizeH_c));
                 Controls.Add(tb_sizeH_c);
                 //
                 //textbox - tb_count
