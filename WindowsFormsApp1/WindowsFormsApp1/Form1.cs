@@ -12,8 +12,28 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        private int count = 1;
+        private int number = 1;
         private string key = "";
+        private int height;
+        private int width;
+        private int count;
+        private List<List<Control>> ctrls;
+
+        public int countAc
+        {
+            get { return count; }
+            set { count = value; }
+        }
+        public int widthtAc
+        {
+            get { return width; }
+            set { width = value; }
+        }
+        public int heightAc
+        {
+            get { return height; }
+            set { height = value; }
+        }
         public string keyAc
         {
             get { return key; }
@@ -42,7 +62,7 @@ namespace WindowsFormsApp1
             this.MaximizeBox = false;
         }
 
-        private void work_Form()
+        private void work_Form(string keyAc)
         {
             this.Width = 1200;
             this.Height = 600;
@@ -71,30 +91,110 @@ namespace WindowsFormsApp1
                 for (int i = 0; i < count; i++)
                 {
                     //
-                    //label - null
-                    //
-                    Label l_null = new Label();
-                    l_null.Text = "";
-                    l_null.Size = new Size(10, 40);
-                    l_null.Location = new Point(20, 600 - 40 - l_null.Height - 30 * i);
-                    Controls.Add(l_null);
-                    //
                     //label - number
                     //
                     Label l_number = new Label();
                     l_number.Text = "Type " + Convert.ToString(i + 1);
                     l_number.Size = new Size(60, 20);
-                    l_number.Location = new Point(20, 600 - 40 - l_null.Height - l_number.Height - 30 * i);
+                    l_number.Location = new Point(20, 600 - 60 - l_number.Height - 50 * i);
                     Controls.Add(l_number);
+                    if (i == 0)
+                    {
+                        //
+                        //picturebox - 0
+                        //
+                        PictureBox pb_type = new PictureBox();
+                        pb_type.Size = new Size(30, 30);
+                        pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
+                        Pen blackPen = new Pen(Color.Black, 2);
+                        pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type1.png");
+                        Controls.Add(pb_type);
+                    }
+                    else if (i == 1)
+                    {
+                        //
+                        //picturebox - 1
+                        //
+                        PictureBox pb_type = new PictureBox();
+                        pb_type.Size = new Size(30, 30);
+                        pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
+                        Pen blackPen = new Pen(Color.Black, 2);
+                        pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type2.png");
+                        Controls.Add(pb_type);
+                    }
+                    else if (i == 2)
+                    {
+                        //
+                        //picturebox - 2
+                        //
+                        PictureBox pb_type = new PictureBox();
+                        pb_type.Size = new Size(30, 30);
+                        pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
+                        Pen blackPen = new Pen(Color.Black, 2);
+                        pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type3.png");
+                        Controls.Add(pb_type);
+                    }
+                    else if (i == 3)
+                    {
+                        //
+                        //picturebox - 3
+                        //
+                        PictureBox pb_type = new PictureBox();
+                        pb_type.Size = new Size(30, 30);
+                        pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
+                        Pen blackPen = new Pen(Color.Black, 2);
+                        pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type4.png");
+                        Controls.Add(pb_type);
+                    }else
+                    {
+                        //
+                        //picturebox - 4
+                        //
+                        PictureBox pb_type = new PictureBox();
+                        pb_type.Size = new Size(30, 30);
+                        pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
+                        Pen blackPen = new Pen(Color.Black, 2);
+                        pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type5.png");
+                        Controls.Add(pb_type);
+                    }
                     //
-                    //picturebox
+                    //label - width
                     //
-                    PictureBox pb_type = new PictureBox();
-                    pb_type.Size = new Size(30, 30);
-                    pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
-                    Pen blackPen = new Pen(Color.Black, 2);
-                    pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type1.png");
-                    Controls.Add(pb_type);
+                    Label l_width = new Label();
+                    l_width.Name = $"l_width{i}";
+                    l_width.Text = ctrls[i].Find(x => x.Name == "tb_sizeW" + Convert.ToString(i)).Text;
+                    l_width.TextAlign = ContentAlignment.TopCenter;
+                    l_width.Size = new Size(40, 20);
+                    l_width.Location = new Point(140, l_number.Location.Y);
+                    Controls.Add(l_width);
+                    //
+                    //label - x
+                    //
+                    Label l_xx = new Label();
+                    l_xx.Text = "x";
+                    l_xx.Size = new Size(13, 20);
+                    l_xx.Location = new Point(l_width.Location.X + l_width.Width + 5, l_width.Location.Y);
+                    Controls.Add(l_xx);
+                    //
+                    //label - height
+                    //
+                    Label l_height = new Label();
+                    l_height.Name = $"l_height{i}";
+                    l_height.Text = ctrls[i].Find(x => x.Name == "tb_sizeH" + Convert.ToString(i)).Text;
+                    l_height.TextAlign = ContentAlignment.TopCenter;
+                    l_height.Size = new Size(40, 20);
+                    l_height.Location = new Point(l_xx.Location.X + l_xx.Width + 5, l_xx.Location.Y);
+                    Controls.Add(l_height);
+                    //
+                    //label - count
+                    //
+                    Label l_count = new Label();
+                    l_count.Name = $"l_count{i}";
+                    l_count.Text = ctrls[i].Find(x => x.Name == "tb_count" + Convert.ToString(i)).Text;
+                    l_count.TextAlign = ContentAlignment.TopCenter;
+                    l_count.Size = new Size(60, 20);
+                    l_count.Location = new Point(l_height.Location.X + l_height.Width + 20, l_height.Location.Y);
+                    Controls.Add(l_count);
                 }
             }
         }
@@ -148,7 +248,7 @@ namespace WindowsFormsApp1
                 password = "123321";
             if ((this.textBox1.Text == login) && (this.textBox2.Text == password))
             {
-                work_Form();
+                work_Form(null);
             }
             else
             {
@@ -161,9 +261,8 @@ namespace WindowsFormsApp1
             Form2 dataForm = new Form2("KoouZz", "123321", "dataIN");
             dataForm.ShowDialog();
             count = dataForm.Cnt;
-            work_Form();
-            keyAc = "param";
-
+            ctrls = new List<List<Control>>(dataForm.Type);
+            work_Form("param");
         }
     }
 }

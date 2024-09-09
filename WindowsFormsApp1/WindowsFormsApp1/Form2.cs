@@ -12,6 +12,11 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : Form
     {
+        private List<List<Control>> type = new List<List<Control>>();
+        public List<List<Control>> Type
+        {
+            get { return type; }
+        }
         private int count = 1;
         public int Cnt
         {
@@ -27,11 +32,13 @@ namespace WindowsFormsApp1
         {
             
         }
-
         private void b_sendData_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i < count; i++)
+            {
+                //type.Add(new List<int>() {Convert.ToInt32(tb_sizeW.Text), Convert.ToInt32(tb_sizeH.Text), Convert.ToInt32(tb_count.Text) });
+            }
             Close();
-
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -42,31 +49,32 @@ namespace WindowsFormsApp1
         {
             if (count < 5)
             {
-                count++;
                 //
                 //label - l_No
                 //
                 Label l_No_c = new Label();
-                l_No_c.Text = Convert.ToString(count);
-                l_No_c.Name = "l_No" + Convert.ToString(count);
+                l_No_c.Text = $"{count + 1}";
+                l_No_c.Name = $"l_No{count}";
                 l_No_c.Size = new Size(15, 30);
-                l_No_c.Location = new Point(105, 60 + 40 * (count-1));
+                l_No_c.Location = new Point(105, 100 + 40 * (count - 1));
+                Console.WriteLine(Controls.IndexOf(l_No_c));
                 Controls.Add(l_No_c);
                 //
                 // textbox - tb_sizeW_c
                 //
                 TextBox tb_sizeW_c = new TextBox();
                 tb_sizeW_c.Size = new Size(40, 30);
-                tb_sizeW_c.Name = "tb_sizeW" + Convert.ToString(count);
+                tb_sizeW_c.Name = $"tb_sizeW{count}";
                 tb_sizeW_c.Location = new Point(l_No_c.Location.X + l_No_c.Width + 40, l_No_c.Location.Y);
                 tb_sizeW_c.TextAlign = HorizontalAlignment.Center;
+                Console.WriteLine(Controls.IndexOf(tb_sizeW_c));
                 Controls.Add(tb_sizeW_c);
                 //
                 //label - l_x
                 //
                 Label l_x_c = new Label();
                 l_x_c.Text = "x";
-                l_x_c.Name = "l_x" + Convert.ToString(count);
+                l_x_c.Name = $"l_x{count}";
                 l_x_c.Size = new Size(15, 30);
                 l_x_c.Location = new Point(tb_sizeW_c.Location.X + tb_sizeW_c.Width + 5, tb_sizeW_c.Location.Y);
                 Controls.Add(l_x_c);
@@ -75,19 +83,23 @@ namespace WindowsFormsApp1
                 //
                 TextBox tb_sizeH_c = new TextBox();
                 tb_sizeH_c.Size = new Size(40, 30);
-                tb_sizeH_c.Name = "tb_sizeH" + Convert.ToString(count);
+                tb_sizeH_c.Name = $"tb_sizeH{count}";
                 tb_sizeH_c.Location = new Point(l_x_c.Location.X + l_x_c.Width + 5, l_x_c.Location.Y);
                 tb_sizeH_c.TextAlign = HorizontalAlignment.Center;
+                Console.WriteLine(Controls.IndexOf(tb_sizeH_c));
                 Controls.Add(tb_sizeH_c);
                 //
                 //textbox - tb_count
                 //
                 TextBox tb_count_c = new TextBox();
                 tb_count_c.Size = new Size(40, 30);
-                tb_count_c.Name = "tb_count" + Convert.ToString(count);
+                tb_count_c.Name = $"tb_count{count}";
                 tb_count_c.Location = new Point(tb_sizeH_c.Location.X + tb_sizeH_c.Width + 40, tb_sizeH_c.Location.Y);
                 tb_count_c.TextAlign = HorizontalAlignment.Center;
+                Console.WriteLine(Controls.IndexOf(tb_count_c));
                 Controls.Add(tb_count_c);
+                count++;
+                type.Add(new List<Control> { tb_sizeW_c, tb_sizeH_c, tb_count_c });
             }
         }
 
@@ -240,6 +252,7 @@ namespace WindowsFormsApp1
                 //
                 Label l_No = new Label();
                 l_No.Text = "1";
+                l_No.Name = "l_No0";
                 l_No.Size = new Size(15, 30);
                 l_No.Location = new Point(b_rmv.Location.X + b_rmv.Width + 20, b_rmv.Location.Y + b_rmv.Height + 10);
                 Controls.Add(l_No);
@@ -247,7 +260,7 @@ namespace WindowsFormsApp1
                 //textbox - tb_sizeW
                 //
                 TextBox tb_sizeW = new TextBox();
-                tb_sizeW.Name = "tb_sizeW";
+                tb_sizeW.Name = "tb_sizeW0";
                 tb_sizeW.Size = new Size(40, 30);
                 tb_sizeW.Location = new Point(l_No.Location.X + l_No.Width + 40, l_No.Location.Y);
                 tb_sizeW.TextAlign = HorizontalAlignment.Center;
@@ -265,6 +278,7 @@ namespace WindowsFormsApp1
                 //
                 TextBox tb_sizeH = new TextBox();
                 tb_sizeH.Size = new Size(40, 30);
+                tb_sizeH.Name = "tb_sizeH0";
                 tb_sizeH.Location = new Point(l_x.Location.X + l_x.Width + 5, l_x.Location.Y);
                 tb_sizeH.TextAlign = HorizontalAlignment.Center;
                 Controls.Add(tb_sizeH);
@@ -273,6 +287,7 @@ namespace WindowsFormsApp1
                 //
                 TextBox tb_count = new TextBox();
                 tb_count.Size = new Size(40, 30);
+                tb_count.Name = "tb_count0";
                 tb_count.Location = new Point(tb_sizeH.Location.X + tb_sizeH.Width + 40, tb_sizeH.Location.Y);
                 tb_count.TextAlign = HorizontalAlignment.Center;
                 Controls.Add(tb_count);
@@ -300,6 +315,8 @@ namespace WindowsFormsApp1
                 l_count.Size = new Size(60, 20);
                 l_count.Location = new Point(tb_count.Location.X + tb_count.Width / 2 - l_count.Width / 2, l_sizeW.Location.Y);
                 Controls.Add(l_count);
+
+                type.Add(new List<Control> { tb_sizeW, tb_sizeH, tb_count });
 
             }
         }
