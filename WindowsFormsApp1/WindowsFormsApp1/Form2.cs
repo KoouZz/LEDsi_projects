@@ -76,7 +76,6 @@ namespace WindowsFormsApp1
                 l_No_c.Name = $"l_No{count}";
                 l_No_c.Size = new Size(15, 30);
                 l_No_c.Location = new Point(105, 100 + 40 * (count - 1));
-                Console.WriteLine(Controls.IndexOf(l_No_c));
                 Controls.Add(l_No_c);
                 //
                 // textbox - tb_sizeW_c
@@ -86,7 +85,6 @@ namespace WindowsFormsApp1
                 tb_sizeW_c.Name = $"tb_sizeW{count}";
                 tb_sizeW_c.Location = new Point(l_No_c.Location.X + l_No_c.Width + 40, l_No_c.Location.Y);
                 tb_sizeW_c.TextAlign = HorizontalAlignment.Center;
-                Console.WriteLine(Controls.IndexOf(tb_sizeW_c));
                 Controls.Add(tb_sizeW_c);
                 //
                 //label - l_x
@@ -114,7 +112,6 @@ namespace WindowsFormsApp1
                 tb_count_c.Name = $"tb_count{count}";
                 tb_count_c.Location = new Point(tb_sizeH_c.Location.X + tb_sizeH_c.Width + 40, tb_sizeH_c.Location.Y);
                 tb_count_c.TextAlign = HorizontalAlignment.Center;
-                Console.WriteLine(Controls.IndexOf(tb_count_c));
                 Controls.Add(tb_count_c);
                 count++;
                 type.Add(new List<Control> { tb_sizeW_c, tb_sizeH_c, tb_count_c });
@@ -337,6 +334,44 @@ namespace WindowsFormsApp1
                 type.Add(new List<Control> { tb_sizeW, tb_sizeH, tb_count });
 
             }
+            if (type_form == "Mounting")
+            {
+                Controls.Cast<Control>().ToList().ForEach(i => i.Visible = false);
+                this.Width = 960;
+                this.Height = 540;
+                this.WindowState = FormWindowState.Maximized;
+                Bitmap mountingDiagrame = new Bitmap(4962, 3509);
+                for (int i = 0; i < 4962; i++)
+                {
+                    for (int j = 0; j < 3509; j++)
+                    {
+                        // 4 пикселя ~ 1 мм
+
+                        //Рамка по краю листа
+                        if (((i <= 4 + 4 * 20) && (i > 4 * 20) && (j > 4 + 4 * 5) && (j < 3509 - 4 - 4 * 5)) || // левое поле
+                            ((i >= 4962 - 4 - 4 * 5) && (i < 4962 - 4 * 5) && (j > 4 + 4 * 5) && (j < 3509 - 4 - 4 * 5)) ||             // правое поле
+                            ((j <= 4 + 4 * 5) && (j > 4 * 5) && (i > 4 + 4 * 20 - 4) && (i < 4962 - 4 - 4 * 5 + 4)) ||                   // верхнее поле
+                            ((j >= 3509 - 4 - 4 * 5) && (j < 3509 - 4 * 5) && (i > 4 + 4 * 20 - 4) && (i < 4962 - 4 - 4 * 5 + 4)))              // нижнее поле
+                        {
+                            mountingDiagrame.SetPixel(i, j, Color.Black);
+                        // Рамка основной надписи
+                        } else if () 
+                        {
+                            // Доделай функцию -->
+                        }
+                        else
+                        {
+                            mountingDiagrame.SetPixel(i, j, Color.White);
+                        }
+                    }
+                }
+                mountingDiagrame.Save("C:\\Users\\user\\Desktop\\1.bmp");
+            }
+        }
+        // --> ВОТ ЭТУ
+        private void drawLine (Bitmap bmp, int x1, int y1, int x2, int y2, int size)
+        {
+            bmp.SetPixel(x, y, Color.Black);
         }
 
         private void data_Form()

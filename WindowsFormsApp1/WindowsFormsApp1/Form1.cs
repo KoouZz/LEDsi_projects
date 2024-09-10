@@ -80,11 +80,9 @@ namespace WindowsFormsApp1
             dataIN.Size = new Size(100, 30);
             dataIN.Text = "Enter data";
             dataIN.Click += dataIN_Click;
-            dataIN.Location = new Point(this.Width/2 - dataIN.Width/2, this.Height/2 - dataIN.Height/2);
+            dataIN.Location = new Point(1200 - dataIN.Width - 30, 600 - dataIN.Height - 50);
             dataIN.Anchor = AnchorStyles.None;
             Controls.Add(dataIN);
-
-
 
             if (keyAc == "param")
             {
@@ -196,6 +194,14 @@ namespace WindowsFormsApp1
                     l_count.Location = new Point(l_height.Location.X + l_height.Width + 20, l_height.Location.Y);
                     Controls.Add(l_count);
                 }
+                Button pict1 = new Button();
+                pict1.Size = new Size(100, 60);
+                pict1.Location = new Point(dataIN.Location.X, dataIN.Location.Y - pict1.Height - 20);
+                pict1.Text = "Mounting diagram";
+                pict1.Click += pict1_Click;
+                pict1.Anchor = AnchorStyles.None;
+                pict1.Visible = true;
+                Controls.Add(pict1);
             }
         }
 
@@ -240,6 +246,11 @@ namespace WindowsFormsApp1
         private void reg_Click(object sender, EventArgs e)
         {
             new Form2(textBox1.Text, textBox2.Text, "reg").ShowDialog();
+        }
+        private void pict1_Click(object sender, EventArgs e)
+        {
+            Form2 mntdgr = new Form2("KoouZz", "123321", "Mounting");
+            mntdgr.ShowDialog();
         }
 
         private void button1_Click(object sender, EventArgs e)
