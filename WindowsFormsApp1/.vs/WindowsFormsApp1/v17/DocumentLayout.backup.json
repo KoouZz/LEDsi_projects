@@ -39,8 +39,7 @@
               "ViewState": "AgIAAFUAAAAAAAAAAAAMwGUAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-23T08:30:35.231Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -48,9 +47,9 @@
               "Title": "Form2.cs",
               "DocumentMoniker": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form2.cs",
               "RelativeDocumentMoniker": "WindowsFormsApp1\\Form2.cs",
-              "ToolTip": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form2.cs*",
-              "RelativeToolTip": "WindowsFormsApp1\\Form2.cs*",
-              "ViewState": "AgIAAGABAAAAAAAAAAAAAHUBAAARAAAAAAAAAA==",
+              "ToolTip": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form2.cs",
+              "RelativeToolTip": "WindowsFormsApp1\\Form2.cs",
+              "ViewState": "AgIAAFsBAAAAAAAAAADgv6EBAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-23T06:30:47.291Z",
               "IsPinned": true,
@@ -74,11 +73,10 @@
               "Title": "Form2.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form2.cs",
               "RelativeDocumentMoniker": "WindowsFormsApp1\\Form2.cs",
-              "ToolTip": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form2.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]*",
-              "RelativeToolTip": "WindowsFormsApp1\\Form2.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]*",
+              "ToolTip": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form2.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "WindowsFormsApp1\\Form2.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-21T04:06:53.825Z",
-              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+              "WhenOpened": "2024-08-21T04:06:53.825Z"
             },
             {
               "$type": "Document",
@@ -89,8 +87,7 @@
               "ToolTip": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "WindowsFormsApp1\\Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-21T04:06:51.469Z",
-              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+              "WhenOpened": "2024-08-21T04:06:51.469Z"
             }
           ]
         }

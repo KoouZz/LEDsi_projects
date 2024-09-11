@@ -340,40 +340,117 @@ namespace WindowsFormsApp1
                 this.Width = 960;
                 this.Height = 540;
                 this.WindowState = FormWindowState.Maximized;
-                Bitmap mountingDiagrame = new Bitmap(4962, 3509);
-                for (int i = 0; i < 4962; i++)
-                {
-                    for (int j = 0; j < 3509; j++)
-                    {
-                        // 4 пикселя ~ 1 мм
+                Bitmap mountingDiagrame = new Bitmap(1587, 1123);
+                drawBoardsOfPage(mountingDiagrame); //Рисует границы листа 
+                drawTitleBlock(mountingDiagrame); //Рисует основную надпись
 
-                        //Рамка по краю листа
-                        if (((i <= 4 + 4 * 20) && (i > 4 * 20) && (j > 4 + 4 * 5) && (j < 3509 - 4 - 4 * 5)) || // левое поле
-                            ((i >= 4962 - 4 - 4 * 5) && (i < 4962 - 4 * 5) && (j > 4 + 4 * 5) && (j < 3509 - 4 - 4 * 5)) ||             // правое поле
-                            ((j <= 4 + 4 * 5) && (j > 4 * 5) && (i > 4 + 4 * 20 - 4) && (i < 4962 - 4 - 4 * 5 + 4)) ||                   // верхнее поле
-                            ((j >= 3509 - 4 - 4 * 5) && (j < 3509 - 4 * 5) && (i > 4 + 4 * 20 - 4) && (i < 4962 - 4 - 4 * 5 + 4)))              // нижнее поле
-                        {
-                            mountingDiagrame.SetPixel(i, j, Color.Black);
-                        // Рамка основной надписи
-                        } else if () 
-                        {
-                            // Доделай функцию -->
-                        }
-                        else
-                        {
-                            mountingDiagrame.SetPixel(i, j, Color.White);
-                        }
-                    }
-                }
                 mountingDiagrame.Save("C:\\Users\\user\\Desktop\\1.bmp");
             }
         }
-        // --> ВОТ ЭТУ
-        private void drawLine (Bitmap bmp, int x1, int y1, int x2, int y2, int size)
+        private int ctToPx(double mm)
         {
-            bmp.SetPixel(x, y, Color.Black);
+            // Перевод из милиметров в пиксели с dpi = 96
+            mm = (int)Math.Round(mm * 96 / 25.4);
+            return (int)mm;
         }
+        private void drawBoardsOfPage(Bitmap bmp)
+        {
+            for (int i = 0; i < bmp.Width; i++)
+            {
+                for (int j = 0; j < bmp.Height; j++)
+                {
+                    // 4 пикселя ~ 1 мм
 
+                    //Рамка по краю листа
+                    if (((i <= ctToPx(0.5) + ctToPx(5)) && (i > ctToPx(5)) && (j > ctToPx(0.5) + ctToPx(5)) && (j < bmp.Height - ctToPx(0.5) - ctToPx(20))) ||                                  // левое поле
+                        ((i >= bmp.Width - ctToPx(0.5) - ctToPx(5)) && (i < bmp.Width - ctToPx(5)) && (j > ctToPx(0.5) + ctToPx(5)) && (j < bmp.Height - ctToPx(0.5) - ctToPx(20))) ||            // правое поле
+                        ((j <= ctToPx(0.5) + ctToPx(5)) && (j > ctToPx(5)) && (i > ctToPx(0.5) + ctToPx(5) - ctToPx(0.5)) && (i < bmp.Width - ctToPx(0.5) - ctToPx(5) + ctToPx(0.5))) ||                            // верхнее поле
+                        ((j >= bmp.Height - ctToPx(0.5) - ctToPx(20)) && (j < bmp.Height - ctToPx(20)) && (i > ctToPx(0.5) + ctToPx(5) - ctToPx(0.5)) && (i < bmp.Width - ctToPx(0.5) - ctToPx(5) + ctToPx(0.5))))    // нижнее поле
+                    {
+                        bmp.SetPixel(i, j, Color.Black);
+                        // Рамка основной надписи
+                    }
+                    else
+                    {
+                        bmp.SetPixel(i, j, Color.White);
+                    }
+                }
+            }
+        }
+        private void drawLineGoriz (Bitmap bmp, int height, int length, int x0, double widthPen)
+        {
+            int y = bmp.Height - ctToPx(20) - ctToPx(0.5) - ctToPx(height);
+            if (x0 > 0)
+            {
+                for (int i = 0; i < ctToPx(widthPen); i++)
+                {
+                    for (int x = bmp.Width - ctToPx(5) - ctToPx(0.5) - ctToPx(x0); x > bmp.Width - ctToPx(length) - ctToPx(5) - ctToPx(0.5) - ctToPx(x0) + 1; x--)
+                    {
+                        bmp.SetPixel(x, y + i, Color.Black);
+                    }
+                }
+            } else
+            {
+                for (int i = 0; i < ctToPx(widthPen); i++)
+                {
+                    for (int x = bmp.Width - ctToPx(5) - ctToPx(0.5); x > bmp.Width - ctToPx(length) - ctToPx(5) - ctToPx(0.5); x--)
+                    {
+                        bmp.SetPixel(x, y + i, Color.Black);
+                    }
+                }
+            }
+        }
+        private void drawLineVert (Bitmap bmp, int width, int length, int y0, double widthPen)
+        {
+            int x = bmp.Width - ctToPx(5) - ctToPx(0.5) - ctToPx(width);
+            if (y0 > 0)
+            {
+                for (int i = 0; i < ctToPx(widthPen); i++)
+                {
+                    for (int y = bmp.Height - ctToPx(20) - ctToPx(0.5) - ctToPx(y0); y > bmp.Height - ctToPx(length) - ctToPx(20) - ctToPx(0.5) - ctToPx(y0) + 1; y--)
+                    {
+                        bmp.SetPixel(x + i, y, Color.Black);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < ctToPx(widthPen); i++)
+                {
+                    for (int y = bmp.Height - ctToPx(20) - ctToPx(0.5); y > bmp.Height - ctToPx(length) - ctToPx(20) - ctToPx(0.5); y--)
+                    {
+                        bmp.SetPixel(x + i, y, Color.Black);
+                    }
+                }
+            }
+        }
+        private void drawTitleBlock(Bitmap bmp)
+        {
+            drawLineGoriz(bmp, 55, 185, 0, 0.5);
+            drawLineGoriz(bmp, 45, 120, 0, 0.5);
+            drawLineGoriz(bmp, 30, 185, 0, 0.5);
+            drawLineGoriz(bmp, 25, 50, 0, 0.5);
+            drawLineGoriz(bmp, 15, 120, 0, 0.5);
+            for (int i = 0; i < 3; i++)
+            {
+                drawLineGoriz(bmp, 50 - 5 * i, 65, 120, 0.25);
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                drawLineGoriz(bmp, 25 - 5 * i, 65, 120, 0.25);
+            }
+            drawLineGoriz(bmp, 35, 65, 120, 0.5);
+            drawLineVert(bmp, 185, 55, 0, 0.5);
+            drawLineVert(bmp, 177, 25, 30, 0.5);
+            drawLineVert(bmp, 168, 55, 0, 0.5);
+            drawLineVert(bmp, 156, 25, 30, 0.5);
+            drawLineVert(bmp, 145, 55, 0, 0.5);
+            drawLineVert(bmp, 130, 55, 0, 0.5);
+            drawLineVert(bmp, 120, 55, 0, 0.5);
+            drawLineVert(bmp, 50, 30, 0, 0.5);
+            drawLineVert(bmp, 35, 15, 15, 0.5);
+            drawLineVert(bmp, 20, 15, 15, 0.5);
+        }
         private void data_Form()
         {
             this.Width = 380;
