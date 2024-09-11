@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WindowsFormsApp1
 {
@@ -343,8 +346,10 @@ namespace WindowsFormsApp1
                 Bitmap mountingDiagrame = new Bitmap(1587, 1123);
                 drawBoardsOfPage(mountingDiagrame); //Рисует границы листа 
                 drawTitleBlock(mountingDiagrame); //Рисует основную надпись
-
-                mountingDiagrame.Save("C:\\Users\\user\\Desktop\\1.bmp");
+                writeText(mountingDiagrame); //Текст оформления
+                writeDate(mountingDiagrame); //Дата в колонке "Дата"
+                
+                mountingDiagrame.Save("C:\\Users\\user\\Desktop\\1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
             }
         }
         private int ctToPx(double mm)
@@ -376,6 +381,36 @@ namespace WindowsFormsApp1
                     }
                 }
             }
+        }
+        private void writeText(Bitmap bmp)
+        {
+            writeTextInTitleBlock(bmp, 12, 185, 35, 7, 5, "Изм");
+            writeTextInTitleBlock(bmp, 11, 178, 35, 10, 5, "Кол.уч");
+            writeTextInTitleBlock(bmp, 12, 169, 35, 12, 5, "Лист");
+            writeTextInTitleBlock(bmp, 12, 156, 35, 11, 5, "№ док.");
+            writeTextInTitleBlock(bmp, 12, 145, 35, 15, 5, "Подп.");
+            writeTextInTitleBlock(bmp, 12, 131, 35, 10, 5, "Дата");
+            writeTextInTitleBlock(bmp, 12, 131, 35, 10, 5, "Дата");
+            writeTextInTitleBlock(bmp, 11, 186, 30, 18, 5, "Разработал");
+            writeTextInTitleBlock(bmp, 11, 186, 25, 18, 5, "Проверил");
+            writeTextInTitleBlock(bmp, 11, 186, 10, 18, 5, "Н.контроль");
+            writeTextInTitleBlock(bmp, 12, 120, 15, 70, 15, "Схема монтажа кабинетов");
+            writeTextInTitleBlock(bmp, 12, 50, 30, 15, 5, "Стадия");
+            writeTextInTitleBlock(bmp, 12, 50, 25, 15, 10, "Р");
+            writeTextInTitleBlock(bmp, 12, 36, 30, 17, 5, "Лист");
+            writeTextInTitleBlock(bmp, 12, 36, 25, 17, 10, "1");
+            writeTextInTitleBlock(bmp, 12, 19, 30, 18, 5, "Листов");
+            writeTextInTitleBlock(bmp, 12, 19, 25, 18, 10, "1");
+            writeTextInTitleBlock(bmp, 12, 50, 15, 50, 15, "ООО 'ЗСП'");
+            writeTextInTitleBlock(bmp, 12, 50, 0, 32, 5, "Формат");
+            writeTextInTitleBlock(bmp, 12, 18, 0, 18, 5, "А3");
+        }
+        private void writeDate(Bitmap bmp)
+        {
+            DateTime thisDay = DateTime.Today;
+            writeTextInTitleBlock(bmp, 12, 131, 30, 10, 5, thisDay.ToString("MM") + "." + thisDay.ToString("yy"));
+            writeTextInTitleBlock(bmp, 12, 131, 25, 10, 5, thisDay.ToString("MM") + "." + thisDay.ToString("yy"));
+            writeTextInTitleBlock(bmp, 12, 131, 10, 10, 5, thisDay.ToString("MM") + "." + thisDay.ToString("yy"));
         }
         private void drawLineGoriz (Bitmap bmp, int height, int length, int x0, double widthPen)
         {
@@ -450,6 +485,42 @@ namespace WindowsFormsApp1
             drawLineVert(bmp, 50, 30, 0, 0.5);
             drawLineVert(bmp, 35, 15, 15, 0.5);
             drawLineVert(bmp, 20, 15, 15, 0.5);
+        }
+        private void writeTextInTitleBlock(Bitmap bmp, int FontHeight, int x0, int y0, int width, int height, string text)
+        {
+            x0 = bmp.Width - ctToPx(5) - ctToPx(x0) + 1;
+            y0 = bmp.Height - ctToPx(20) - ctToPx(y0);
+            height = ctToPx(height) + ctToPx(0.5);
+            width = ctToPx(width) + ctToPx(0.5);
+            // Create a rectangle for the entire bitmap
+            RectangleF rectf = new RectangleF(x0, y0, width, height);
+            // Create graphic object that will draw onto the bitmap
+            Graphics g = Graphics.FromImage(bmp);
+            // ------------------------------------------
+            // Ensure the best possible quality rendering
+            // ------------------------------------------
+            // The smoothing mode specifies whether lines, curves, and the edges of filled areas use smoothing (also called antialiasing). 
+            // One exception is that path gradient brushes do not obey the smoothing mode. 
+            // Areas filled using a PathGradientBrush are rendered the same way (aliased) regardless of the SmoothingMode property.
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            // The interpolation mode determines how intermediate values between two endpoints are calculated.
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            // Use this property to specify either higher quality, slower rendering, or lower quality, faster rendering of the contents of this Graphics object.
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            // This one is important
+            g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+            // Create string formatting options (used for alignment)
+            StringFormat format = new StringFormat()
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center
+            };
+
+            // Draw the text onto the image
+            g.DrawString(text, new Font("GOST Type A", FontHeight), Brushes.Black, rectf, format);
+
+            // Flush all graphics changes to the bitmap
+            g.Flush();
         }
         private void data_Form()
         {
