@@ -17,6 +17,7 @@ namespace WindowsFormsApp1
         private int height;
         private int width;
         private int count;
+        private string clearKey = "clear";
         private List<List<Control>> ctrls;
 
         public int countAc
@@ -77,7 +78,7 @@ namespace WindowsFormsApp1
             // button - dataIN
             //
             Button dataIN = new Button();
-            dataIN.Size = new Size(100, 30);
+            dataIN.Size = new Size(100, 60);
             dataIN.Text = "Enter data";
             dataIN.Click += dataIN_Click;
             dataIN.Location = new Point(1200 - dataIN.Width - 30, 600 - dataIN.Height - 50);
@@ -143,7 +144,8 @@ namespace WindowsFormsApp1
                         Pen blackPen = new Pen(Color.Black, 2);
                         pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type4.png");
                         Controls.Add(pb_type);
-                    }else
+                    }
+                    else
                     {
                         //
                         //picturebox - 4
@@ -193,7 +195,48 @@ namespace WindowsFormsApp1
                     l_count.Size = new Size(60, 20);
                     l_count.Location = new Point(l_height.Location.X + l_height.Width + 20, l_height.Location.Y);
                     Controls.Add(l_count);
+                    //
+                    //textbox - row
+                    //
+                    TextBox tb_rows = new TextBox();
+                    tb_rows.Name = $"tb_rows{i}";
+                    tb_rows.Size = new Size(40, 20);
+                    tb_rows.Location = new Point(l_count.Location.X + 15 + l_count.Width, l_count.Location.Y - 2);
+                    Controls.Add(tb_rows);
+                    //
+                    //textbox - column
+                    //
+                    TextBox tb_column = new TextBox();
+                    tb_column.Name = $"tb_column{i}";
+                    tb_column.Size = new Size(40, 20);
+                    tb_column.Location = new Point(tb_rows.Location.X + 5 + tb_rows.Width, tb_rows.Location.Y);
+                    Controls.Add(tb_column);
                 }
+                //
+                // btn - to draw source-diagrame
+                //
+                Button pictSource = new Button();
+                pictSource.Size = new Size(150, 60);
+                pictSource.Location = new Point(dataIN.Location.X - 20 - pictSource.Width, dataIN.Location.Y);
+                pictSource.Text = "Draw diagrame by source";
+                pictSource.Click += pictSource_Click;
+                pictSource.Anchor = AnchorStyles.None;
+                pictSource.Visible = true;
+                Controls.Add(pictSource);
+                //
+                // btn - clear picturebox
+                //
+                Button clspict1 = new Button();
+                clspict1.Size = new Size(150, 60);
+                clspict1.Location = new Point(pictSource.Location.X - clspict1.Width - 20, pictSource.Location.Y);
+                clspict1.Text = "Clear Mounting diagram";
+                clspict1.Click += clspict1_Click; ;
+                clspict1.Anchor = AnchorStyles.None;
+                clspict1.Visible = true;
+                Controls.Add(clspict1);
+                //
+                // btn - to draw mounting diagrame
+                //
                 Button pict1 = new Button();
                 pict1.Size = new Size(100, 60);
                 pict1.Location = new Point(dataIN.Location.X, dataIN.Location.Y - pict1.Height - 20);
@@ -202,6 +245,38 @@ namespace WindowsFormsApp1
                 pict1.Anchor = AnchorStyles.None;
                 pict1.Visible = true;
                 Controls.Add(pict1);
+            }
+        }
+
+        private void clspict1_Click(object sender, EventArgs e)
+        {
+            Control pb = Controls.Find("mnt diagrame", true).FirstOrDefault() as PictureBox;
+            if (clearKey == "draw")
+            {
+                Controls.Remove(pb);
+                clearKey = "clear";
+            }
+        }
+
+        private void pictSource_Click(object sender, EventArgs e)
+        {
+            string clm = Controls.Find($"tb_column0", true).FirstOrDefault().Text;
+            string rw = Controls.Find($"tb_rows0", true).FirstOrDefault().Text;
+            PictureBox pb_mountingDiagrame = new PictureBox();
+            Image img = (Image)chooseResolution(Convert.ToInt32(clm), Convert.ToInt32(rw));
+            if (clearKey == "clear")
+            {
+                try
+                {
+                    Convert.ToInt32(clm);
+                    Convert.ToInt32(rw);
+                    drawDiagrame(Convert.ToInt32(clm), Convert.ToInt32(rw), pb_mountingDiagrame, img);
+                    clearKey = "draw";
+                }
+                catch
+                {
+                    MessageBox.Show("В колонках и строках допустимы только целые числа!");
+                }
             }
         }
 
@@ -226,7 +301,26 @@ namespace WindowsFormsApp1
             error.Text = "Error. User not found. Please try to login in again.";
         }
 
-        
+        private void drawDiagrame(int c, int r, PictureBox pb, Image img)
+        {
+            pb.Name = "mnt diagrame";
+            pb.BackColor = Color.Transparent;
+            Controls.Add(pb);
+            Bitmap bm = new Bitmap(img.Width * c + img.Width, img.Height * r + img.Height / 2);
+            Graphics gp = Graphics.FromImage(bm);
+            pb.Size = new Size(img.Width * c + img.Width, img.Height * r + img.Height / 2);
+            pb.Location = new Point(this.Width / 2 - pb.Width / 2, 20);
+            for (int x = 0; x <= bm.Width + img.Width / 5 - img.Width; x += img.Width + img.Width/10)
+            {
+                for (int y = 0; y <= bm.Height + img.Height / 5 - img.Height; y += img.Height + img.Height/10)
+                {
+                    gp.DrawImage(img, new Point(y, x));
+                }
+            }
+            gp.Dispose();
+            pb.Image = bm;
+            pb.Invalidate();
+        }
 
         private void Form1_InitComp()
         {
@@ -274,6 +368,29 @@ namespace WindowsFormsApp1
             count = dataForm.Cnt;
             ctrls = new List<List<Control>>(dataForm.Type);
             work_Form("param");
+        }
+        private object chooseResolution(int c, int r)
+        {
+            if ((c <= 4) && (r <= 8))
+            {
+                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\diagrame100px.png");
+                return img;
+            }
+            else if ((c < 20) && (r < 10))
+            {
+                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\diagrame45px.png");
+                return img;
+            }
+            else if ((c < 30) && (r < 15))
+            {
+                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\diagrame30px.png");
+                return img;
+            }
+            else
+            {
+                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\diagrame15px.png");
+                return img;
+            }
         }
     }
 }

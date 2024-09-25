@@ -125,11 +125,11 @@ namespace WindowsFormsApp1
         {
             if (count > 1)
             {
-                var l_No = Controls.Find("l_No" + Convert.ToString(count), true).FirstOrDefault() as Label;
-                var l_x = Controls.Find("l_x" + Convert.ToString(count), true).FirstOrDefault() as Label;
-                var tb_sizeW = Controls.Find("tb_sizeW" + Convert.ToString(count), true).FirstOrDefault() as TextBox;
-                var tb_sizeH = Controls.Find("tb_sizeH" + Convert.ToString(count), true).FirstOrDefault() as TextBox;
-                var tb_count = Controls.Find("tb_count" + Convert.ToString(count), true).FirstOrDefault() as TextBox;
+                var l_No = Controls.Find("l_No" + Convert.ToString(count-1), true).FirstOrDefault() as Label;
+                var l_x = Controls.Find("l_x" + Convert.ToString(count-1), true).FirstOrDefault() as Label;
+                var tb_sizeW = Controls.Find("tb_sizeW" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
+                var tb_sizeH = Controls.Find("tb_sizeH" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
+                var tb_count = Controls.Find("tb_count" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
                 Controls.Remove(l_No);
                 Controls.Remove(l_x);
                 Controls.Remove(tb_sizeW);
@@ -343,14 +343,18 @@ namespace WindowsFormsApp1
                 this.Width = 960;
                 this.Height = 540;
                 this.WindowState = FormWindowState.Maximized;
-                Bitmap mountingDiagrame = new Bitmap(1587, 1123);
-                drawBoardsOfPage(mountingDiagrame); //Рисует границы листа 
-                drawTitleBlock(mountingDiagrame); //Рисует основную надпись
-                writeText(mountingDiagrame); //Текст оформления
-                writeDate(mountingDiagrame); //Дата в колонке "Дата"
-                
-                mountingDiagrame.Save("C:\\Users\\user\\Desktop\\1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                A3Format();
+
             }
+        }
+        private void A3Format()
+        {
+            Bitmap mountingDiagrame = new Bitmap(1587, 1123);
+            drawBoardsOfPage(mountingDiagrame); //Рисует границы листа 
+            drawTitleBlock(mountingDiagrame); //Рисует основную надпись
+            writeText(mountingDiagrame); //Текст оформления
+            writeDate(mountingDiagrame); //Дата в колонке "Дата"
+            mountingDiagrame.Save("C:\\Users\\user\\Desktop\\1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
         }
         private int ctToPx(double mm)
         {
