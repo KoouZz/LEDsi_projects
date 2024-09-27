@@ -15,6 +15,12 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : Form
     {
+        private Bitmap diagrame_bmp;
+        public Bitmap Diagrame
+        {
+            set { diagrame_bmp = value; }
+        }
+
         private List<List<Control>> type = new List<List<Control>>();
         public List<List<Control>> Type
         {
@@ -354,6 +360,7 @@ namespace WindowsFormsApp1
             drawTitleBlock(mountingDiagrame); //Рисует основную надпись
             writeText(mountingDiagrame); //Текст оформления
             writeDate(mountingDiagrame); //Дата в колонке "Дата"
+            InputDiagrame(mountingDiagrame, diagrame_bmp);
             mountingDiagrame.Save("C:\\Users\\user\\Desktop\\1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
         }
         private int ctToPx(double mm)
@@ -525,6 +532,15 @@ namespace WindowsFormsApp1
 
             // Flush all graphics changes to the bitmap
             g.Flush();
+        }
+        private void InputDiagrame(Bitmap format, Bitmap diagrame)
+        {
+            if (diagrame != null)
+            {
+                System.Drawing.Image dgr = (System.Drawing.Image)diagrame;
+                Graphics g = Graphics.FromImage(format);
+                g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 210) / 2 - dgr.Height / 2));
+            }
         }
         private void data_Form()
         {

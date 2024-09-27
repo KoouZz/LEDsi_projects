@@ -19,6 +19,12 @@ namespace WindowsFormsApp1
         private int count;
         private string clearKey = "clear";
         private List<List<Control>> ctrls;
+        private Bitmap bm = null;
+        public Bitmap BM
+        {
+            set { bm = value; }
+            get { return bm; }
+        }
 
         public int countAc
         {
@@ -67,6 +73,7 @@ namespace WindowsFormsApp1
         {
             this.Width = 1200;
             this.Height = 600;
+            this.MinimumSize = new Size(950, 240);
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(10, 10);
             this.FormBorderStyle = FormBorderStyle.Sizable;
@@ -82,7 +89,7 @@ namespace WindowsFormsApp1
             dataIN.Text = "Enter data";
             dataIN.Click += dataIN_Click;
             dataIN.Location = new Point(1200 - dataIN.Width - 30, 600 - dataIN.Height - 50);
-            dataIN.Anchor = AnchorStyles.None;
+            dataIN.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
             Controls.Add(dataIN);
 
             if (keyAc == "param")
@@ -95,6 +102,7 @@ namespace WindowsFormsApp1
                     Label l_number = new Label();
                     l_number.Text = "Type " + Convert.ToString(i + 1);
                     l_number.Size = new Size(60, 20);
+                    l_number.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
                     l_number.Location = new Point(20, 600 - 60 - l_number.Height - 50 * i);
                     Controls.Add(l_number);
                     if (i == 0)
@@ -105,6 +113,7 @@ namespace WindowsFormsApp1
                         PictureBox pb_type = new PictureBox();
                         pb_type.Size = new Size(30, 30);
                         pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
+                        pb_type.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
                         Pen blackPen = new Pen(Color.Black, 2);
                         pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type1.png");
                         Controls.Add(pb_type);
@@ -117,6 +126,7 @@ namespace WindowsFormsApp1
                         PictureBox pb_type = new PictureBox();
                         pb_type.Size = new Size(30, 30);
                         pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
+                        pb_type.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
                         Pen blackPen = new Pen(Color.Black, 2);
                         pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type2.png");
                         Controls.Add(pb_type);
@@ -129,6 +139,7 @@ namespace WindowsFormsApp1
                         PictureBox pb_type = new PictureBox();
                         pb_type.Size = new Size(30, 30);
                         pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
+                        pb_type.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
                         Pen blackPen = new Pen(Color.Black, 2);
                         pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type3.png");
                         Controls.Add(pb_type);
@@ -141,6 +152,7 @@ namespace WindowsFormsApp1
                         PictureBox pb_type = new PictureBox();
                         pb_type.Size = new Size(30, 30);
                         pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
+                        pb_type.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
                         Pen blackPen = new Pen(Color.Black, 2);
                         pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type4.png");
                         Controls.Add(pb_type);
@@ -153,6 +165,7 @@ namespace WindowsFormsApp1
                         PictureBox pb_type = new PictureBox();
                         pb_type.Size = new Size(30, 30);
                         pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
+                        pb_type.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
                         Pen blackPen = new Pen(Color.Black, 2);
                         pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type5.png");
                         Controls.Add(pb_type);
@@ -165,6 +178,7 @@ namespace WindowsFormsApp1
                     l_width.Text = ctrls[i].Find(x => x.Name == "tb_sizeW" + Convert.ToString(i)).Text;
                     l_width.TextAlign = ContentAlignment.TopCenter;
                     l_width.Size = new Size(40, 20);
+                    l_width.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
                     l_width.Location = new Point(140, l_number.Location.Y);
                     Controls.Add(l_width);
                     //
@@ -174,6 +188,7 @@ namespace WindowsFormsApp1
                     l_xx.Text = "x";
                     l_xx.Size = new Size(13, 20);
                     l_xx.Location = new Point(l_width.Location.X + l_width.Width + 5, l_width.Location.Y);
+                    l_xx.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
                     Controls.Add(l_xx);
                     //
                     //label - height
@@ -184,6 +199,7 @@ namespace WindowsFormsApp1
                     l_height.TextAlign = ContentAlignment.TopCenter;
                     l_height.Size = new Size(40, 20);
                     l_height.Location = new Point(l_xx.Location.X + l_xx.Width + 5, l_xx.Location.Y);
+                    l_height.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
                     Controls.Add(l_height);
                     //
                     //label - count
@@ -194,23 +210,26 @@ namespace WindowsFormsApp1
                     l_count.TextAlign = ContentAlignment.TopCenter;
                     l_count.Size = new Size(60, 20);
                     l_count.Location = new Point(l_height.Location.X + l_height.Width + 20, l_height.Location.Y);
+                    l_count.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
                     Controls.Add(l_count);
-                    //
-                    //textbox - row
-                    //
-                    TextBox tb_rows = new TextBox();
-                    tb_rows.Name = $"tb_rows{i}";
-                    tb_rows.Size = new Size(40, 20);
-                    tb_rows.Location = new Point(l_count.Location.X + 15 + l_count.Width, l_count.Location.Y - 2);
-                    Controls.Add(tb_rows);
                     //
                     //textbox - column
                     //
                     TextBox tb_column = new TextBox();
                     tb_column.Name = $"tb_column{i}";
                     tb_column.Size = new Size(40, 20);
-                    tb_column.Location = new Point(tb_rows.Location.X + 5 + tb_rows.Width, tb_rows.Location.Y);
+                    tb_column.Location = new Point(l_count.Location.X + 15 + l_count.Width, l_count.Location.Y - 2);
+                    tb_column.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
                     Controls.Add(tb_column);
+                    //
+                    //textbox - row
+                    //
+                    TextBox tb_rows = new TextBox();
+                    tb_rows.Name = $"tb_rows{i}";
+                    tb_rows.Size = new Size(40, 20);
+                    tb_rows.Location = new Point(tb_column.Location.X + 5 + tb_column.Width, tb_column.Location.Y);
+                    tb_rows.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
+                    Controls.Add(tb_rows);
                 }
                 //
                 // btn - to draw source-diagrame
@@ -220,7 +239,7 @@ namespace WindowsFormsApp1
                 pictSource.Location = new Point(dataIN.Location.X - 20 - pictSource.Width, dataIN.Location.Y);
                 pictSource.Text = "Draw diagrame by source";
                 pictSource.Click += pictSource_Click;
-                pictSource.Anchor = AnchorStyles.None;
+                pictSource.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
                 pictSource.Visible = true;
                 Controls.Add(pictSource);
                 //
@@ -231,7 +250,7 @@ namespace WindowsFormsApp1
                 clspict1.Location = new Point(pictSource.Location.X - clspict1.Width - 20, pictSource.Location.Y);
                 clspict1.Text = "Clear Mounting diagram";
                 clspict1.Click += clspict1_Click; ;
-                clspict1.Anchor = AnchorStyles.None;
+                clspict1.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
                 clspict1.Visible = true;
                 Controls.Add(clspict1);
                 //
@@ -242,7 +261,7 @@ namespace WindowsFormsApp1
                 pict1.Location = new Point(dataIN.Location.X, dataIN.Location.Y - pict1.Height - 20);
                 pict1.Text = "Mounting diagram";
                 pict1.Click += pict1_Click;
-                pict1.Anchor = AnchorStyles.None;
+                pict1.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
                 pict1.Visible = true;
                 Controls.Add(pict1);
             }
@@ -268,10 +287,13 @@ namespace WindowsFormsApp1
             {
                 try
                 {
-                    Convert.ToInt32(clm);
-                    Convert.ToInt32(rw);
-                    drawDiagrame(Convert.ToInt32(clm), Convert.ToInt32(rw), pb_mountingDiagrame, img);
-                    clearKey = "draw";
+                    if (img != null)
+                    {
+                        Convert.ToInt32(clm);
+                        Convert.ToInt32(rw);
+                        drawDiagrame(Convert.ToInt32(clm), Convert.ToInt32(rw), pb_mountingDiagrame, img);
+                        clearKey = "draw";
+                    }
                 }
                 catch
                 {
@@ -306,19 +328,20 @@ namespace WindowsFormsApp1
             pb.Name = "mnt diagrame";
             pb.BackColor = Color.Transparent;
             Controls.Add(pb);
-            Bitmap bm = new Bitmap(img.Width * c + img.Width, img.Height * r + img.Height / 2);
-            Graphics gp = Graphics.FromImage(bm);
-            pb.Size = new Size(img.Width * c + img.Width, img.Height * r + img.Height / 2);
-            pb.Location = new Point(this.Width / 2 - pb.Width / 2, 20);
-            for (int x = 0; x <= bm.Width + img.Width / 5 - img.Width; x += img.Width + img.Width/10)
+            BM = new Bitmap((img.Width + img.Width / 4) * c, (img.Height + img.Height / 4) * r);
+            Graphics gp = Graphics.FromImage(BM);
+            pb.Size = new Size((img.Width + img.Width / 4) * c, (img.Height + img.Height / 4) * r);
+            pb.Location = new Point(this.Width / 2 - pb.Width / 2, this.Height / 2 - pb.Height / 2);
+            pb.Anchor = AnchorStyles.None;
+            for (int x = 0; x < BM.Width; x += img.Width + img.Width/4)
             {
-                for (int y = 0; y <= bm.Height + img.Height / 5 - img.Height; y += img.Height + img.Height/10)
+                for (int y = 0; y < BM.Height; y += img.Height + img.Height/4)
                 {
-                    gp.DrawImage(img, new Point(y, x));
+                    gp.DrawImage(img, new Point(x, y));
                 }
             }
             gp.Dispose();
-            pb.Image = bm;
+            pb.Image = BM;
             pb.Invalidate();
         }
 
@@ -345,6 +368,7 @@ namespace WindowsFormsApp1
         {
             Form2 mntdgr = new Form2("KoouZz", "123321", "Mounting");
             mntdgr.ShowDialog();
+            mntdgr.Diagrame = BM;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -371,25 +395,30 @@ namespace WindowsFormsApp1
         }
         private object chooseResolution(int c, int r)
         {
-            if ((c <= 4) && (r <= 8))
+            if ((c <= 13) && (r <= 7))
             {
-                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\diagrame100px.png");
+                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\1_diagrame100px.png");
                 return img;
             }
-            else if ((c < 20) && (r < 10))
+            else if ((c <= 30) && (r <= 15))
             {
-                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\diagrame45px.png");
+                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\1_diagrame45px.png");
                 return img;
             }
-            else if ((c < 30) && (r < 15))
+            else if ((c < 45) && (r < 22))
             {
-                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\diagrame30px.png");
+                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\1_diagrame30px.png");
+                return img;
+            }
+            else if ((c <= 90) && (r <= 45))
+            {
+                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\1_diagrame15px.png");
                 return img;
             }
             else
             {
-                Image img = Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\diagrame15px.png");
-                return img;
+                MessageBox.Show("Размер экрана превышает допустимые значения");
+                return null;
             }
         }
     }
