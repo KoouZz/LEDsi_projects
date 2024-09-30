@@ -20,12 +20,23 @@ namespace WindowsFormsApp1
         private string clearKey = "clear";
         private List<List<Control>> ctrls;
         private Bitmap bm;
+        private int col;
+        private int rws;
+        public int Columns
+        {
+            set { col = value; }
+            get { return col; }
+        }
+        public int Rows
+        {
+            get { return rws; }
+            set { rws = value; }
+        }
         public Bitmap BM
         {
             set { bm = value; }
             get { return bm; }
         }
-
         public int countAc
         {
             get { return count; }
@@ -279,19 +290,17 @@ namespace WindowsFormsApp1
 
         private void pictSource_Click(object sender, EventArgs e)
         {
-            string clm = Controls.Find($"tb_column0", true).FirstOrDefault().Text;
-            string rw = Controls.Find($"tb_rows0", true).FirstOrDefault().Text;
-            PictureBox pb_mountingDiagrame = new PictureBox();
-            Image img = (Image)chooseResolution(Convert.ToInt32(clm), Convert.ToInt32(rw));
             if (clearKey == "clear")
             {
                 try
                 {
+                    Columns = Convert.ToInt32(Controls.Find($"tb_column0", true).FirstOrDefault().Text);
+                    Rows = Convert.ToInt32(Controls.Find($"tb_rows0", true).FirstOrDefault().Text);
+                    PictureBox pb_mountingDiagrame = new PictureBox();
+                    Image img = (Image)chooseResolution(Columns, Rows);
                     if (img != null)
                     {
-                        Convert.ToInt32(clm);
-                        Convert.ToInt32(rw);
-                        drawDiagrame(Convert.ToInt32(clm), Convert.ToInt32(rw), pb_mountingDiagrame, img);
+                        drawDiagrame(Convert.ToInt32(Columns), Convert.ToInt32(Rows), pb_mountingDiagrame, img);
                         clearKey = "draw";
                     }
                 }
@@ -317,7 +326,7 @@ namespace WindowsFormsApp1
             error.Show();
             error.Width = 550;
             error.Height = 50;
-            error.Location = new Point(this.Width/2 - error.Width/2, 400);
+            error.Location = new Point(this.Width / 2 - error.Width / 2, 400);
             error.ForeColor = Color.Red;
             error.Font = new Font(FontFamily.GenericSansSerif, 16F, FontStyle.Bold);
             error.Text = "Error. User not found. Please try to login in again.";
@@ -333,15 +342,16 @@ namespace WindowsFormsApp1
             pb.Size = new Size((img.Width + img.Width / 4) * c, (img.Height + img.Height / 4) * r);
             pb.Location = new Point(this.Width / 2 - pb.Width / 2, this.Height / 2 - pb.Height / 2);
             pb.Anchor = AnchorStyles.None;
-            for (int x = 0; x < BM.Width; x += img.Width + img.Width/4)
+            for (int x = 0; x < BM.Width; x += img.Width + img.Width / 4)
             {
-                for (int y = 0; y < BM.Height; y += img.Height + img.Height/4)
+                for (int y = 0; y < BM.Height; y += img.Height + img.Height / 4)
                 {
                     gp.DrawImage(img, new Point(x, y));
                 }
             }
             gp.Dispose();
             pb.Image = BM;
+            pb.Invalidate();
         }
 
         private void Form1_InitComp()
@@ -354,7 +364,7 @@ namespace WindowsFormsApp1
             reg.Text = "Sign in";
             reg.Width = 60;
             reg.Height = 30;
-            reg.Location = new Point(button1.Location.X + button1.Width/2 - reg.Width/2, button1.Location.Y + button1.Height + 10);
+            reg.Location = new Point(button1.Location.X + button1.Width / 2 - reg.Width / 2, button1.Location.Y + button1.Height + 10);
             reg.ForeColor = Color.Blue;
             reg.Click += reg_Click;
         }
@@ -366,6 +376,8 @@ namespace WindowsFormsApp1
         private void pict1_Click(object sender, EventArgs e)
         {
             Form2 mntdgr = new Form2("KoouZz", "123321", "Mounting");
+            mntdgr.Col = Columns;
+            mntdgr.Rws = Rows;
             mntdgr.Diagrame = BM;
             mntdgr.ShowDialog();
         }

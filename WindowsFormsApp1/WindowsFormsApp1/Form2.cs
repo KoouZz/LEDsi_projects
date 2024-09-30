@@ -20,6 +20,18 @@ namespace WindowsFormsApp1
         {
             set { diagrame_bmp = value; }
         }
+        private int col;
+        public int Col
+        {
+            get { return col; }
+            set { col = value; }
+        }
+        private int rw; 
+        public int Rws
+        {
+            get { return rw; }
+            set { rw = value; }
+        }
 
         private List<List<Control>> type = new List<List<Control>>();
         public List<List<Control>> Type
@@ -370,8 +382,49 @@ namespace WindowsFormsApp1
             drawTitleBlock(mountingDiagrame); //Рисует основную надпись
             writeText(mountingDiagrame); //Текст оформления
             writeDate(mountingDiagrame); //Дата в колонке "Дата"
+            drawArrows(mountingDiagrame, diagrame_bmp);
             InputDiagrame(mountingDiagrame, diagrame_bmp);
             mountingDiagrame.Save("C:\\Users\\user\\Desktop\\1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+        }
+        private void drawArrows(Bitmap format, Bitmap diagrame)
+        {
+            int size = (int)Math.Ceiling(Convert.ToDouble(diagrame.Width) * 4 / (5 * Col));     // ПРИ СМЕНЕ ОТСТУПА МЕЖДУ КАБИНЕТАМИ МОГУТ ВОЗНИКНУТЬ ОШИБКИ В ПРОРИСОВКЕ ДИАГРАММЫ!!!
+            System.Drawing.Image up;
+            System.Drawing.Image down;
+            System.Drawing.Image left;
+            System.Drawing.Image right;
+            up = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_up" + size +"px.png");
+            down = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_down"+ size +"px.png");
+            left = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_left"+ size +"px.png");
+            right = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_right"+ size +"px.png");
+            Graphics graphics = Graphics.FromImage(diagrame);
+            for (int x = size; x < diagrame.Width - size / 4; x += size + size / 4)     // ПРИ СМЕНЕ ОТСТУПА МЕЖДУ КАБИНЕТАМИ МОГУТ ВОЗНИКНУТЬ ОШИБКИ В ПРОРИСОВКЕ ДИАГРАММЫ!!!
+            {
+                for (int y = 0; y < diagrame.Height - size / 4; y += size + size / 4)
+                {
+                    if (x < ((size + size / 4) / 2 * Col))
+                    {
+                        graphics.DrawImage(right, x, y);
+                    }
+                    else
+                    {
+                        graphics.DrawImage(left, x, y);
+                    }
+                    if (Col % 2 == 1)
+                    {
+                        if ((int)Math.Ceiling((double)Col / 2) == x / (size + size / 4) + 1)
+                        {
+                            graphics.DrawImage(up, x - size, y - size / 2 + size / 4);
+                        }
+                    } else
+                    {
+                        if ((int)Math.Ceiling((double)Col / 2) == x / (size + size / 4))
+                        {
+                            graphics.DrawImage(up, x - size, y - size / 2 + size / 4);
+                        }
+                    }
+                }
+            }
         }
         private int ctToPx(double mm)
         {
