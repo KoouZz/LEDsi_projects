@@ -349,10 +349,20 @@ namespace WindowsFormsApp1
                 this.Width = 960;
                 this.Height = 540;
                 this.WindowState = FormWindowState.Maximized;
-                A3Format();
-
+                Button bt_draw = new Button();
+                bt_draw.Text = "Нарисовать";
+                bt_draw.Size = new Size(100, 40);
+                bt_draw.Location = new Point(this.Width / 2 - bt_draw.Width / 2, this.Height / 2 - bt_draw.Height / 2);
+                bt_draw.Click += bt_draw_Click;
+                Controls.Add(bt_draw);
             }
         }
+
+        private void bt_draw_Click(object sender, EventArgs e)
+        {
+            A3Format();
+        }
+
         private void A3Format()
         {
             Bitmap mountingDiagrame = new Bitmap(1587, 1123);
@@ -535,11 +545,36 @@ namespace WindowsFormsApp1
         }
         private void InputDiagrame(Bitmap format, Bitmap diagrame)
         {
-            if (diagrame != null)
+            if(diagrame != null)
             {
-                System.Drawing.Image dgr = (System.Drawing.Image)diagrame;
-                Graphics g = Graphics.FromImage(format);
-                g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 210) / 2 - dgr.Height / 2));
+                if (diagrame.Width > 1400 & diagrame.Height > 800)
+                {
+                    Bitmap diagrameResize = new Bitmap(diagrame, new Size(1400, 800));
+                    System.Drawing.Image dgr = (System.Drawing.Image)diagrameResize;
+                    Graphics g = Graphics.FromImage(format);
+                    g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 180) / 2 - dgr.Height / 2 - 50));
+                    g.Dispose();
+                } else if (diagrame.Width > 1400)
+                {
+                    Bitmap diagrameResize = new Bitmap(diagrame, new Size(1400, diagrame.Height));
+                    System.Drawing.Image dgr = (System.Drawing.Image)diagrameResize;
+                    Graphics g = Graphics.FromImage(format);
+                    g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 180) / 2 - dgr.Height / 2 - 50));
+                    g.Dispose();
+                } else if (diagrame.Height > 800)
+                {
+                    Bitmap diagrameResize = new Bitmap(diagrame, new Size(diagrame.Width, 800));
+                    System.Drawing.Image dgr = (System.Drawing.Image)diagrameResize;
+                    Graphics g = Graphics.FromImage(format);
+                    g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 180) / 2 - dgr.Height / 2 - 50));
+                    g.Dispose();
+                } else
+                {
+                    System.Drawing.Image dgr = (System.Drawing.Image)diagrame;
+                    Graphics g = Graphics.FromImage(format);
+                    g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 180) / 2 - dgr.Height / 2 - 50));
+                    g.Dispose();
+                }
             }
         }
         private void data_Form()

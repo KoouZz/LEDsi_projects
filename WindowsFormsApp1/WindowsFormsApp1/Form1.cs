@@ -19,7 +19,7 @@ namespace WindowsFormsApp1
         private int count;
         private string clearKey = "clear";
         private List<List<Control>> ctrls;
-        private Bitmap bm = null;
+        private Bitmap bm;
         public Bitmap BM
         {
             set { bm = value; }
@@ -342,7 +342,6 @@ namespace WindowsFormsApp1
             }
             gp.Dispose();
             pb.Image = BM;
-            pb.Invalidate();
         }
 
         private void Form1_InitComp()
@@ -367,8 +366,8 @@ namespace WindowsFormsApp1
         private void pict1_Click(object sender, EventArgs e)
         {
             Form2 mntdgr = new Form2("KoouZz", "123321", "Mounting");
-            mntdgr.ShowDialog();
             mntdgr.Diagrame = BM;
+            mntdgr.ShowDialog();
         }
 
         private void button1_Click(object sender, EventArgs e)
