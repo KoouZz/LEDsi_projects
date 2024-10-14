@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,16 +16,41 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : Form
     {
+        private Bitmap diagrame_bmp;
+        public Bitmap Diagrame
+        {
+            set { diagrame_bmp = value; }
+        }
+
+        private int col;
+        public int Col
+        {
+            get { return col; }
+            set { col = value; }
+        }
+
+        private int rw; 
+        public int Rws
+        {
+            get { return rw; }
+            set { rw = value; }
+        }
+
         private List<List<Control>> type = new List<List<Control>>();
         public List<List<Control>> Type
         {
             get { return type; }
         }
+
         private int count = 1;
         public int Cnt
         {
             get { return count; }
         }
+
+        public List<string> info = new List<string>();
+
+
         public Form2(string login_sgn, string psw, string type)
         {
             InitializeComponent();
@@ -125,11 +151,11 @@ namespace WindowsFormsApp1
         {
             if (count > 1)
             {
-                var l_No = Controls.Find("l_No" + Convert.ToString(count), true).FirstOrDefault() as Label;
-                var l_x = Controls.Find("l_x" + Convert.ToString(count), true).FirstOrDefault() as Label;
-                var tb_sizeW = Controls.Find("tb_sizeW" + Convert.ToString(count), true).FirstOrDefault() as TextBox;
-                var tb_sizeH = Controls.Find("tb_sizeH" + Convert.ToString(count), true).FirstOrDefault() as TextBox;
-                var tb_count = Controls.Find("tb_count" + Convert.ToString(count), true).FirstOrDefault() as TextBox;
+                var l_No = Controls.Find("l_No" + Convert.ToString(count-1), true).FirstOrDefault() as Label;
+                var l_x = Controls.Find("l_x" + Convert.ToString(count-1), true).FirstOrDefault() as Label;
+                var tb_sizeW = Controls.Find("tb_sizeW" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
+                var tb_sizeH = Controls.Find("tb_sizeH" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
+                var tb_count = Controls.Find("tb_count" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
                 Controls.Remove(l_No);
                 Controls.Remove(l_x);
                 Controls.Remove(tb_sizeW);
@@ -343,13 +369,128 @@ namespace WindowsFormsApp1
                 this.Width = 960;
                 this.Height = 540;
                 this.WindowState = FormWindowState.Maximized;
-                Bitmap mountingDiagrame = new Bitmap(1587, 1123);
-                drawBoardsOfPage(mountingDiagrame); //Рисует границы листа 
-                drawTitleBlock(mountingDiagrame); //Рисует основную надпись
-                writeText(mountingDiagrame); //Текст оформления
-                writeDate(mountingDiagrame); //Дата в колонке "Дата"
-                
-                mountingDiagrame.Save("C:\\Users\\user\\Desktop\\1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                Button bt_draw = new Button();
+                bt_draw.Text = "Нарисовать";
+                bt_draw.Size = new Size(100, 40);
+                bt_draw.Location = new Point(this.Width / 2 - bt_draw.Width / 2, this.Height / 2 - bt_draw.Height / 2);
+                bt_draw.Click += bt_draw_Click;
+                Controls.Add(bt_draw);
+            }
+        }
+
+        private void bt_draw_Click(object sender, EventArgs e)
+        {
+            A3Format();
+            Close();
+        }
+
+        private void A3Format()
+        {
+            Bitmap mountingDiagrame = new Bitmap(1587, 1123);
+            drawBoardsOfPage(mountingDiagrame); //Рисует границы листа 
+            drawTitleBlock(mountingDiagrame); //Рисует основную надпись
+            writeTextInTitleBlock(mountingDiagrame); //Текст оформления
+            writeDate(mountingDiagrame); //Дата в колонке "Дата"
+            drawArrowsAndNumbersOfAssemb(mountingDiagrame, diagrame_bmp);
+            drawNumbersAssemb(mountingDiagrame, diagrame_bmp);
+            InputDiagrame(mountingDiagrame, diagrame_bmp);
+            drawTableWithInfoOfCabinet(mountingDiagrame);
+            mountingDiagrame.Save("C:\\Users\\user\\Desktop\\1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+        }
+        private void drawTableWithInfoOfCabinet(Bitmap bmp)
+        {
+            drawLineGoriz(bmp, 60, 200, 0, 0.5, "left");
+            drawLineGoriz(bmp, 45, 200, 0, 0.5, "left");
+            drawLineGoriz(bmp, 30, 200, 0, 0.5, "left");
+            drawLineVert(bmp, 15, 30, 30, 0.5, "left");
+            drawLineVert(bmp, 75, 30, 30, 0.5, "left");
+            drawLineVert(bmp, 150, 30, 30, 0.5, "left");
+            drawLineVert(bmp, 165, 30, 30, 0.5, "left");
+            drawLineVert(bmp, 200, 30, 30, 0.5, "left");
+            writeText(bmp, 12, 0, 60, 15, 15, "left", "Поз.");
+            writeText(bmp, 12, 15, 60, 60, 15, "left", "Обозначение");
+            writeText(bmp, 12, 75, 60, 75, 15, "left", "Наименование");
+            writeText(bmp, 12, 150, 60, 15, 15, "left", "Кол.");
+            writeText(bmp, 12, 165, 60, 35, 15, "left", "Примечание");
+            writeText(bmp, 12, 0, 45, 15, 15, "left", "1");
+            insertTypeCabinetImg(bmp);
+            writeText(bmp, 12, 75, 45, 75, 15, "left", $"Кабинет размером {info[6]}x{info[7]}");
+            writeText(bmp, 12, 150, 45, 15, 15, "left", $"{Col * Rws}");
+
+        }
+        private void insertTypeCabinetImg(Bitmap a3)
+        {
+            Bitmap img = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type1.png");
+            Bitmap imgScale = new Bitmap(img, new Size(ctToPx(13), ctToPx(13)));
+            System.Drawing.Image imgInTable = (System.Drawing.Image)imgScale;
+            Graphics gr = Graphics.FromImage(a3);
+            gr.DrawImage(imgInTable, new Point(ctToPx(5) + ctToPx(0.5) + ctToPx(15) + ctToPx(60) / 2 - imgInTable.Width / 2, a3.Height - ctToPx(20) - ctToPx(0.5) - ctToPx(37) - imgInTable.Height / 2));
+            gr.Dispose();
+        }
+        private void drawNumbersAssemb(Bitmap format, Bitmap diagrame)
+        {
+            int size = (int)Math.Ceiling(Convert.ToDouble(diagrame.Width) * 4 / (5 * Col));     // ПРИ СМЕНЕ ОТСТУПА МЕЖДУ КАБИНЕТАМИ МОГУТ ВОЗНИКНУТЬ ОШИБКИ В ПРОРИСОВКЕ ДИАГРАММЫ!!!
+            
+        }
+        private void drawArrowsAndNumbersOfAssemb(Bitmap format, Bitmap diagrame)
+        {
+            int x0;
+            int size = (int)Math.Ceiling(Convert.ToDouble(diagrame.Width) * 4 / (5 * Col));     // ПРИ СМЕНЕ ОТСТУПА МЕЖДУ КАБИНЕТАМИ МОГУТ ВОЗНИКНУТЬ ОШИБКИ В ПРОРИСОВКЕ ДИАГРАММЫ!!!
+            System.Drawing.Image up;
+            System.Drawing.Image down;
+            System.Drawing.Image left;
+            System.Drawing.Image right;
+            up = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_up" + size +"px.png");
+            down = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_down"+ size +"px.png");
+            left = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_left"+ size +"px.png");
+            right = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_right"+ size +"px.png");
+            Graphics graphics = Graphics.FromImage(diagrame);
+            if (Col % 2 == 1) 
+            {
+                x0 = Convert.ToInt32(Math.Ceiling((Col / 2) * (size + (double)size / 4))) - size / 4;
+            }
+            else 
+            {
+                x0 = diagrame.Width / 2 - size / 8;
+            }
+            for (int y = 0, assemb = 1; y < diagrame.Height - size / 4; y += size + size / 4)     // ПРИ СМЕНЕ ОТСТУПА МЕЖДУ КАБИНЕТАМИ МОГУТ ВОЗНИКНУТЬ ОШИБКИ В ПРОРИСОВКЕ ДИАГРАММЫ!!!
+            {
+                for (int x = x0, direction = size + size / 4; x < diagrame.Width - size / 4; x += size + size / 4 - 2 * direction, assemb += 2)
+                {
+
+                    if (x < ((size + size / 4) / 2 * Col))
+                    {
+                        graphics.DrawImage(right, x, y);
+                        drawNumbersAssemb(graphics, 14, x + size / 15 - 6, y + size / 4, 25, 18, Convert.ToString(assemb));
+                        if (x - size - size / 4 < 0)
+                        {
+                            x = x0;
+                            direction = 0;
+                            assemb = (y / (size + size / 4)) * Col;
+                        }
+                    }
+                    else
+                    {
+                        graphics.DrawImage(left, x, y);
+                        drawNumbersAssemb(graphics, 14, x + size / 15 - 6, y + size / 4, 25, 18, Convert.ToString(assemb));
+                    }
+                    if (Col % 2 == 1)
+                    {
+                        if ((int)Math.Ceiling((double)Col / 2) == x / (size + size / 4) + 1)
+                        {
+                            graphics.DrawImage(up, x - size, y - size / 2 + size / 4);
+                            drawNumbersAssemb(graphics, 14, x - size / 3, y - size / 2 + size / 3 - 2, 25, 18, Convert.ToString((y / (size + size / 4)) * Col));
+                        }
+                    } else
+                    {
+                        if ((int)Math.Ceiling((double)Col / 2) == x / (size + size / 4))
+                        {
+                            graphics.DrawImage(down, x - size, y - size / 2 + size / 4);
+                            drawNumbersAssemb(graphics, 14, x - size / 3, y - size / 2 + size / 3 - 2, 25, 18, Convert.ToString((y / (size + size / 4)) * Col));
+                        }
+                    }
+
+                }
             }
         }
         private int ctToPx(double mm)
@@ -382,145 +523,293 @@ namespace WindowsFormsApp1
                 }
             }
         }
-        private void writeText(Bitmap bmp)
+        private void writeTextInTitleBlock(Bitmap bmp)
         {
-            writeTextInTitleBlock(bmp, 12, 185, 35, 7, 5, "Изм");
-            writeTextInTitleBlock(bmp, 11, 178, 35, 10, 5, "Кол.уч");
-            writeTextInTitleBlock(bmp, 12, 169, 35, 12, 5, "Лист");
-            writeTextInTitleBlock(bmp, 12, 156, 35, 11, 5, "№ док.");
-            writeTextInTitleBlock(bmp, 12, 145, 35, 15, 5, "Подп.");
-            writeTextInTitleBlock(bmp, 12, 131, 35, 10, 5, "Дата");
-            writeTextInTitleBlock(bmp, 12, 131, 35, 10, 5, "Дата");
-            writeTextInTitleBlock(bmp, 11, 186, 30, 18, 5, "Разработал");
-            writeTextInTitleBlock(bmp, 11, 186, 25, 18, 5, "Проверил");
-            writeTextInTitleBlock(bmp, 11, 186, 10, 18, 5, "Н.контроль");
-            writeTextInTitleBlock(bmp, 12, 120, 15, 70, 15, "Схема монтажа кабинетов");
-            writeTextInTitleBlock(bmp, 12, 50, 30, 15, 5, "Стадия");
-            writeTextInTitleBlock(bmp, 12, 50, 25, 15, 10, "Р");
-            writeTextInTitleBlock(bmp, 12, 36, 30, 17, 5, "Лист");
-            writeTextInTitleBlock(bmp, 12, 36, 25, 17, 10, "1");
-            writeTextInTitleBlock(bmp, 12, 19, 30, 18, 5, "Листов");
-            writeTextInTitleBlock(bmp, 12, 19, 25, 18, 10, "1");
-            writeTextInTitleBlock(bmp, 12, 50, 15, 50, 15, "ООО 'ЗСП'");
-            writeTextInTitleBlock(bmp, 12, 50, 0, 32, 5, "Формат");
-            writeTextInTitleBlock(bmp, 12, 18, 0, 18, 5, "А3");
+            writeText(bmp, 12, 185, 35, 7, 5, "right", "Изм");
+            writeText(bmp, 11, 178, 35, 10, 5, "right", "Кол.уч");
+            writeText(bmp, 12, 169, 35, 12, 5, "right", "Лист");
+            writeText(bmp, 12, 156, 35, 11, 5, "right", "№ док.");
+            writeText(bmp, 12, 145, 35, 15, 5, "right", "Подп.");
+            writeText(bmp, 12, 131, 35, 10, 5, "right", "Дата");
+            writeText(bmp, 12, 131, 35, 10, 5, "right", "Дата");
+            writeText(bmp, 11, 186, 30, 18, 5, "right", "Разработал");
+            writeText(bmp, 12, 169, 30, 23, 5, "right", info[0]);
+            writeText(bmp, 11, 186, 25, 18, 5, "right", "Проверил");
+            writeText(bmp, 12, 169, 25, 23, 5, "right", info[1]);
+            writeText(bmp, 11, 186, 10, 18, 5, "right", "Н.контроль");
+            writeText(bmp, 12, 169, 10, 23, 5, "right", info[2]);
+            writeText(bmp, 20, 120, 15, 70, 15, "right", "Схема монтажа кабинетов в экран (вид сзади)");
+            writeText(bmp, 20, 120, 55, 120, 10, "right", info[3]);
+            writeText(bmp, 20, 120, 45, 120, 15, "right", info[4]);
+            writeText(bmp, 12, 50, 30, 15, 5, "right", "Стадия");
+            writeText(bmp, 12, 50, 25, 15, 10, "right", "Р");
+            writeText(bmp, 12, 36, 30, 17, 5, "right", "Лист");
+            writeText(bmp, 12, 36, 25, 17, 10, "right", "1");
+            writeText(bmp, 12, 19, 30, 18, 5, "right", "Листов");
+            writeText(bmp, 12, 19, 25, 18, 10, "right", "1");
+            writeText(bmp, 20, 50, 15, 50, 15, "right", "ООО 'ЗСП'");
+            writeText(bmp, 12, 50, 0, 32, 5, "right", "Формат");
+            writeText(bmp, 12, 18, 0, 18, 5, "right", "А3");
+            writeText(bmp, 20, 120, 30, 70, 15, "right", $"Светодиодный экран\nP{info[5]}, (ШxВ) {Convert.ToInt32(info[6]) * Col}x{Convert.ToInt32(info[7]) * Rws}");
         }
         private void writeDate(Bitmap bmp)
         {
             DateTime thisDay = DateTime.Today;
-            writeTextInTitleBlock(bmp, 12, 131, 30, 10, 5, thisDay.ToString("MM") + "." + thisDay.ToString("yy"));
-            writeTextInTitleBlock(bmp, 12, 131, 25, 10, 5, thisDay.ToString("MM") + "." + thisDay.ToString("yy"));
-            writeTextInTitleBlock(bmp, 12, 131, 10, 10, 5, thisDay.ToString("MM") + "." + thisDay.ToString("yy"));
+            writeText(bmp, 12, 131, 30, 10, 5, "right", thisDay.ToString("MM") + "." + thisDay.ToString("yy"));
+            writeText(bmp, 12, 131, 25, 10, 5, "right", thisDay.ToString("MM") + "." + thisDay.ToString("yy"));
+            writeText(bmp, 12, 131, 10, 10, 5, "right", thisDay.ToString("MM") + "." + thisDay.ToString("yy"));
         }
-        private void drawLineGoriz (Bitmap bmp, int height, int length, int x0, double widthPen)
+        private void drawLineGoriz (Bitmap bmp, int height, int length, int x0, double widthPen, string mode)
         {
             int y = bmp.Height - ctToPx(20) - ctToPx(0.5) - ctToPx(height);
-            if (x0 > 0)
+            if (mode == "right")
             {
-                for (int i = 0; i < ctToPx(widthPen); i++)
+                if (x0 > 0)
                 {
-                    for (int x = bmp.Width - ctToPx(5) - ctToPx(0.5) - ctToPx(x0); x > bmp.Width - ctToPx(length) - ctToPx(5) - ctToPx(0.5) - ctToPx(x0) + 1; x--)
+                    for (int i = 0; i < ctToPx(widthPen); i++)
                     {
-                        bmp.SetPixel(x, y + i, Color.Black);
+                        for (int x = bmp.Width - ctToPx(5) - ctToPx(0.5) - ctToPx(x0); x > bmp.Width - ctToPx(length) - ctToPx(5) - ctToPx(0.5) - ctToPx(x0) + 1; x--)
+                        {
+                            bmp.SetPixel(x, y + i, Color.Black);
+                        }
                     }
                 }
-            } else
-            {
-                for (int i = 0; i < ctToPx(widthPen); i++)
+                else
                 {
-                    for (int x = bmp.Width - ctToPx(5) - ctToPx(0.5); x > bmp.Width - ctToPx(length) - ctToPx(5) - ctToPx(0.5); x--)
+                    for (int i = 0; i < ctToPx(widthPen); i++)
                     {
-                        bmp.SetPixel(x, y + i, Color.Black);
-                    }
-                }
-            }
-        }
-        private void drawLineVert (Bitmap bmp, int width, int length, int y0, double widthPen)
-        {
-            int x = bmp.Width - ctToPx(5) - ctToPx(0.5) - ctToPx(width);
-            if (y0 > 0)
-            {
-                for (int i = 0; i < ctToPx(widthPen); i++)
-                {
-                    for (int y = bmp.Height - ctToPx(20) - ctToPx(0.5) - ctToPx(y0); y > bmp.Height - ctToPx(length) - ctToPx(20) - ctToPx(0.5) - ctToPx(y0) + 1; y--)
-                    {
-                        bmp.SetPixel(x + i, y, Color.Black);
+                        for (int x = bmp.Width - ctToPx(5) - ctToPx(0.5); x > bmp.Width - ctToPx(length) - ctToPx(5) - ctToPx(0.5); x--)
+                        {
+                            bmp.SetPixel(x, y + i, Color.Black);
+                        }
                     }
                 }
             }
             else
             {
-                for (int i = 0; i < ctToPx(widthPen); i++)
+                if (x0 > 0)
                 {
-                    for (int y = bmp.Height - ctToPx(20) - ctToPx(0.5); y > bmp.Height - ctToPx(length) - ctToPx(20) - ctToPx(0.5); y--)
+                    for (int i = 0; i < ctToPx(widthPen); i++)
                     {
-                        bmp.SetPixel(x + i, y, Color.Black);
+                        for (int x = ctToPx(5) + ctToPx(0.5) + ctToPx(x0); x < ctToPx(length) + ctToPx(5) + ctToPx(0.5) + ctToPx(x0) + 1; x++)
+                        {
+                            bmp.SetPixel(x, y + i, Color.Black);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < ctToPx(widthPen); i++)
+                    {
+                        for (int x = ctToPx(5) + ctToPx(0.5); x < ctToPx(length) + ctToPx(5) + ctToPx(0.5); x++)
+                        {
+                            bmp.SetPixel(x, y + i, Color.Black);
+                        }
+                    }
+                }
+            }
+        }
+        private void drawLineVert (Bitmap bmp, int width, int length, int y0, double widthPen, string mode)
+        {
+            if (mode == "right")
+            {
+                int x = bmp.Width - ctToPx(5) - ctToPx(0.5) - ctToPx(width);
+                if (y0 > 0)
+                {
+                    for (int i = 0; i < ctToPx(widthPen); i++)
+                    {
+                        for (int y = bmp.Height - ctToPx(20) - ctToPx(0.5) - ctToPx(y0); y > bmp.Height - ctToPx(length) - ctToPx(20) - ctToPx(0.5) - ctToPx(y0) - 1; y--)
+                        {
+                            bmp.SetPixel(x + i, y, Color.Black);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < ctToPx(widthPen); i++)
+                    {
+                        for (int y = bmp.Height - ctToPx(20) - ctToPx(0.5); y > bmp.Height - ctToPx(length) - ctToPx(20) - ctToPx(0.5) - 1; y--)
+                        {
+                            bmp.SetPixel(x + i, y, Color.Black);
+                        }
+                    }
+                }
+            } else
+            {
+                int x = ctToPx(5) + ctToPx(0.5) + ctToPx(width);
+                if (y0 > 0)
+                {
+                    for (int i = 0; i < ctToPx(widthPen); i++)
+                    {
+                        for (int y = bmp.Height - ctToPx(20) - ctToPx(0.5) - ctToPx(y0); y > bmp.Height - ctToPx(length) - ctToPx(20) - ctToPx(0.5) - ctToPx(y0) - 2; y--)
+                        {
+                            bmp.SetPixel(x + i, y, Color.Black);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < ctToPx(widthPen); i++)
+                    {
+                        for (int y = bmp.Height - ctToPx(20) - ctToPx(0.5); y > bmp.Height - ctToPx(length) - ctToPx(20) - ctToPx(0.5) - 2; y--)
+                        {
+                            bmp.SetPixel(x + i, y, Color.Black);
+                        }
                     }
                 }
             }
         }
         private void drawTitleBlock(Bitmap bmp)
         {
-            drawLineGoriz(bmp, 55, 185, 0, 0.5);
-            drawLineGoriz(bmp, 45, 120, 0, 0.5);
-            drawLineGoriz(bmp, 30, 185, 0, 0.5);
-            drawLineGoriz(bmp, 25, 50, 0, 0.5);
-            drawLineGoriz(bmp, 15, 120, 0, 0.5);
+            drawLineGoriz(bmp, 55, 185, 0, 0.5, "right");
+            drawLineGoriz(bmp, 45, 120, 0, 0.5, "right");
+            drawLineGoriz(bmp, 30, 185, 0, 0.5, "right");
+            drawLineGoriz(bmp, 25, 50, 0, 0.5, "right");
+            drawLineGoriz(bmp, 15, 120, 0, 0.5, "right");
             for (int i = 0; i < 3; i++)
             {
-                drawLineGoriz(bmp, 50 - 5 * i, 65, 120, 0.25);
+                drawLineGoriz(bmp, 50 - 5 * i, 65, 120, 0.25, "right");
             }
             for (int i = 0; i < 5; i++)
             {
-                drawLineGoriz(bmp, 25 - 5 * i, 65, 120, 0.25);
+                drawLineGoriz(bmp, 25 - 5 * i, 65, 120, 0.25, "right");
             }
-            drawLineGoriz(bmp, 35, 65, 120, 0.5);
-            drawLineVert(bmp, 185, 55, 0, 0.5);
-            drawLineVert(bmp, 177, 25, 30, 0.5);
-            drawLineVert(bmp, 168, 55, 0, 0.5);
-            drawLineVert(bmp, 156, 25, 30, 0.5);
-            drawLineVert(bmp, 145, 55, 0, 0.5);
-            drawLineVert(bmp, 130, 55, 0, 0.5);
-            drawLineVert(bmp, 120, 55, 0, 0.5);
-            drawLineVert(bmp, 50, 30, 0, 0.5);
-            drawLineVert(bmp, 35, 15, 15, 0.5);
-            drawLineVert(bmp, 20, 15, 15, 0.5);
+            drawLineGoriz(bmp, 35, 65, 120, 0.5, "right");
+            drawLineVert(bmp, 185, 55, 0, 0.5, "right");
+            drawLineVert(bmp, 177, 25, 30, 0.5, "right");
+            drawLineVert(bmp, 168, 55, 0, 0.5, "right");
+            drawLineVert(bmp, 156, 25, 30, 0.5, "right");
+            drawLineVert(bmp, 145, 55, 0, 0.5, "right");
+            drawLineVert(bmp, 130, 55, 0, 0.5, "right");
+            drawLineVert(bmp, 120, 55, 0, 0.5, "right");
+            drawLineVert(bmp, 50, 30, 0, 0.5, "right");
+            drawLineVert(bmp, 35, 15, 15, 0.5, "right");
+            drawLineVert(bmp, 20, 15, 15, 0.5, "right");
         }
-        private void writeTextInTitleBlock(Bitmap bmp, int FontHeight, int x0, int y0, int width, int height, string text)
+        private void writeText(Bitmap bmp, int FontHeight, int x0, int y0, int width, int height, string mode, string text)
         {
-            x0 = bmp.Width - ctToPx(5) - ctToPx(x0) + 1;
-            y0 = bmp.Height - ctToPx(20) - ctToPx(y0);
-            height = ctToPx(height) + ctToPx(0.5);
-            width = ctToPx(width) + ctToPx(0.5);
-            // Create a rectangle for the entire bitmap
+            if (mode == "right")
+            {
+                x0 = bmp.Width - ctToPx(5) - ctToPx(x0) + 1;
+                y0 = bmp.Height - ctToPx(20) - ctToPx(y0);
+                height = ctToPx(height) + ctToPx(0.5);
+                width = ctToPx(width) + ctToPx(0.5);
+                // Create a rectangle for the entire bitmap
+                RectangleF rectf = new RectangleF(x0, y0, width, height);
+                // Create graphic object that will draw onto the bitmap
+                Graphics g = Graphics.FromImage(bmp);
+                // ------------------------------------------
+                // Ensure the best possible quality rendering
+                // ------------------------------------------
+                // The smoothing mode specifies whether lines, curves, and the edges of filled areas use smoothing (also called antialiasing). 
+                // One exception is that path gradient brushes do not obey the smoothing mode. 
+                // Areas filled using a PathGradientBrush are rendered the same way (aliased) regardless of the SmoothingMode property.
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                // The interpolation mode determines how intermediate values between two endpoints are calculated.
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                // Use this property to specify either higher quality, slower rendering, or lower quality, faster rendering of the contents of this Graphics object.
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                // This one is important
+                g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+                // Create string formatting options (used for alignment)
+                StringFormat format = new StringFormat()
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center
+                };
+
+                // Draw the text onto the image
+                g.DrawString(text, new Font("GOST Type A", FontHeight), Brushes.Black, rectf, format);
+
+                // Flush all graphics changes to the bitmap
+                g.Flush();
+            } else
+            {
+                x0 = ctToPx(5) + ctToPx(x0) + 1;
+                y0 = bmp.Height - ctToPx(20) - ctToPx(y0);
+                height = ctToPx(height) + ctToPx(0.5);
+                width = ctToPx(width) + ctToPx(0.5);
+                // Create a rectangle for the entire bitmap
+                RectangleF rectf = new RectangleF(x0, y0, width, height);
+                // Create graphic object that will draw onto the bitmap
+                Graphics g = Graphics.FromImage(bmp);
+                // ------------------------------------------
+                // Ensure the best possible quality rendering
+                // ------------------------------------------
+                // The smoothing mode specifies whether lines, curves, and the edges of filled areas use smoothing (also called antialiasing). 
+                // One exception is that path gradient brushes do not obey the smoothing mode. 
+                // Areas filled using a PathGradientBrush are rendered the same way (aliased) regardless of the SmoothingMode property.
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                // The interpolation mode determines how intermediate values between two endpoints are calculated.
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                // Use this property to specify either higher quality, slower rendering, or lower quality, faster rendering of the contents of this Graphics object.
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                // This one is important
+                g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+                // Create string formatting options (used for alignment)
+                StringFormat format = new StringFormat()
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center
+                };
+
+                // Draw the text onto the image
+                g.DrawString(text, new Font("GOST Type A", FontHeight), Brushes.Black, rectf, format);
+
+                // Flush all graphics changes to the bitmap
+                g.Flush();
+            }
+        }
+        private void drawNumbersAssemb(Graphics g, int FontHeight, int x0, int y0, int width, int height, string text)
+        {
             RectangleF rectf = new RectangleF(x0, y0, width, height);
-            // Create graphic object that will draw onto the bitmap
-            Graphics g = Graphics.FromImage(bmp);
-            // ------------------------------------------
-            // Ensure the best possible quality rendering
-            // ------------------------------------------
-            // The smoothing mode specifies whether lines, curves, and the edges of filled areas use smoothing (also called antialiasing). 
-            // One exception is that path gradient brushes do not obey the smoothing mode. 
-            // Areas filled using a PathGradientBrush are rendered the same way (aliased) regardless of the SmoothingMode property.
             g.SmoothingMode = SmoothingMode.AntiAlias;
-            // The interpolation mode determines how intermediate values between two endpoints are calculated.
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            // Use this property to specify either higher quality, slower rendering, or lower quality, faster rendering of the contents of this Graphics object.
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            // This one is important
             g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-            // Create string formatting options (used for alignment)
-            StringFormat format = new StringFormat()
+            StringFormat strFormat = new StringFormat()
             {
                 Alignment = StringAlignment.Center,
                 LineAlignment = StringAlignment.Center
             };
 
-            // Draw the text onto the image
-            g.DrawString(text, new Font("GOST Type A", FontHeight), Brushes.Black, rectf, format);
+            g.DrawString(text, new Font("GOST Type A", FontHeight), Brushes.Black, rectf, strFormat);
 
-            // Flush all graphics changes to the bitmap
             g.Flush();
+        }
+        private void InputDiagrame(Bitmap format, Bitmap diagrame)
+        {
+            if(diagrame != null)
+            {
+                if (diagrame.Width > 1400 & diagrame.Height > 800)
+                {
+                    Bitmap diagrameResize = new Bitmap(diagrame, new Size(1400, 800));
+                    System.Drawing.Image dgr = (System.Drawing.Image)diagrameResize;
+                    Graphics g = Graphics.FromImage(format);
+                    g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 180) / 2 - dgr.Height / 2 - 50));
+                    g.Dispose();
+                } else if (diagrame.Width > 1400)
+                {
+                    Bitmap diagrameResize = new Bitmap(diagrame, new Size(1400, diagrame.Height));
+                    System.Drawing.Image dgr = (System.Drawing.Image)diagrameResize;
+                    Graphics g = Graphics.FromImage(format);
+                    g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 180) / 2 - dgr.Height / 2 - 50));
+                    g.Dispose();
+                } else if (diagrame.Height > 800)
+                {
+                    Bitmap diagrameResize = new Bitmap(diagrame, new Size(diagrame.Width, 800));
+                    System.Drawing.Image dgr = (System.Drawing.Image)diagrameResize;
+                    Graphics g = Graphics.FromImage(format);
+                    g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 180) / 2 - dgr.Height / 2 - 50));
+                    g.Dispose();
+                } else
+                {
+                    System.Drawing.Image dgr = (System.Drawing.Image)diagrame;
+                    Graphics g = Graphics.FromImage(format);
+                    g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 180) / 2 - dgr.Height / 2 - 50));
+                    g.Dispose();
+                }
+            }
         }
         private void data_Form()
         {
