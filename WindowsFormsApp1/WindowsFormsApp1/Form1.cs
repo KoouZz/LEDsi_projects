@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -84,7 +85,7 @@ namespace WindowsFormsApp1
         {
             this.Width = 1200;
             this.Height = 600;
-            this.MinimumSize = new Size(950, 240);
+            this.MinimumSize = new Size(950, 530);
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(10, 10);
             this.FormBorderStyle = FormBorderStyle.Sizable;
@@ -163,7 +164,7 @@ namespace WindowsFormsApp1
                         PictureBox pb_type = new PictureBox();
                         pb_type.Size = new Size(30, 30);
                         pb_type.Location = new Point(l_number.Location.X + l_number.Width + 20, l_number.Location.Y - 3);
-                        pb_type.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
+                        pb_type.Anchor = (AnchorStyles.Left | AnchorStyles.Bottom);
                         Pen blackPen = new Pen(Color.Black, 2);
                         pb_type.Image = new Bitmap(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\type4.png");
                         Controls.Add(pb_type);
@@ -275,6 +276,114 @@ namespace WindowsFormsApp1
                 pict1.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
                 pict1.Visible = true;
                 Controls.Add(pict1);
+                //
+                //l - developer
+                //
+                Label l_developer = new Label();
+                l_developer.Text = "Разработчик схем";
+                l_developer.Size = new Size(200, 20);
+                l_developer.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                l_developer.Location = new Point(20, 20);
+                Controls.Add(l_developer);
+                //
+                //tb - developer
+                //
+                TextBox tb_developer = new TextBox();
+                tb_developer.Name = "tb_developer";
+                tb_developer.Size = new Size(200, 30);
+                tb_developer.Location = new Point(20, l_developer.Location.Y + l_developer.Height + 5);
+                tb_developer.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                Controls.Add(tb_developer);
+                //
+                //l - checker
+                //
+                Label l_checker = new Label();
+                l_checker.Text = "Проверяющий схемы";
+                l_checker.Size = new Size(200, 30);
+                l_checker.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                l_checker.Location = new Point(20, tb_developer.Location.Y + tb_developer.Height + 20);
+                Controls.Add(l_checker);
+                //
+                //tb - checker
+                //
+                TextBox tb_checker = new TextBox();
+                tb_checker.Name = "tb_checker";
+                tb_checker.Size = new Size(200, 30);
+                tb_checker.Location = new Point(20, l_checker.Location.Y + l_checker.Height + 5);
+                tb_checker.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                Controls.Add(tb_checker);
+                //
+                //l - controller
+                //
+                Label l_controller = new Label();
+                l_controller.Text = "Норм.контроль";
+                l_controller.Size = new Size(200, 30);
+                l_controller.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                l_controller.Location = new Point(20, tb_checker.Location.Y + tb_checker.Height + 25);
+                Controls.Add(l_controller);
+                //
+                //tb - controller
+                //
+                TextBox tb_controller = new TextBox();
+                tb_controller.Name = "tb_controller";
+                tb_controller.Size = new Size(200, 30);
+                tb_controller.Location = new Point(20, l_controller.Location.Y + l_controller.Height + 5);
+                tb_controller.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                Controls.Add(tb_controller);
+                //
+                //l - phase
+                //
+                Label l_phase = new Label();
+                l_phase.Text = "Этап";
+                l_phase.Size = new Size(200, 30);
+                l_phase.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                l_phase.Location = new Point(20, tb_controller.Location.Y + tb_controller.Height + 25);
+                Controls.Add(l_phase);
+                //
+                //tb - phase
+                //
+                TextBox tb_phase = new TextBox();
+                tb_phase.Name = "tb_phase";
+                tb_phase.Size = new Size(200, 30);
+                tb_phase.Location = new Point(20, l_phase.Location.Y + l_phase.Height + 5);
+                tb_phase.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                Controls.Add(tb_phase);
+                //
+                //l - CompanyName
+                //
+                Label l_companyName = new Label();
+                l_companyName.Text = "Наименование заказчика";
+                l_companyName.Size = new Size(250, 30);
+                l_companyName.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                l_companyName.Location = new Point(20, tb_phase.Location.Y + tb_phase.Height + 20);
+                Controls.Add(l_companyName);
+                //
+                //tb - CompanyName
+                //
+                TextBox tb_companyName = new TextBox();
+                tb_companyName.Name = "tb_companyName";
+                tb_companyName.Size = new Size(200, 30);
+                tb_companyName.Location = new Point(20, l_companyName.Location.Y + l_companyName.Height + 5);
+                tb_companyName.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                Controls.Add(tb_companyName);
+                //
+                //l - moduleStep
+                //
+                Label l_moduleStep = new Label();
+                l_moduleStep.Text = "Шаг пикселя";
+                l_moduleStep.Size = new Size(250, 30);
+                l_moduleStep.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                l_moduleStep.Location = new Point(20, tb_companyName.Location.Y + tb_companyName.Height + 20);
+                Controls.Add(l_moduleStep);
+                //
+                //tb - moduleStep
+                //
+                TextBox tb_moduleStep = new TextBox();
+                tb_moduleStep.Name = "tb_moduleStep";
+                tb_moduleStep.Size = new Size(200, 30);
+                tb_moduleStep.Location = new Point(20, l_moduleStep.Location.Y + l_moduleStep.Height + 5);
+                tb_moduleStep.Anchor = (AnchorStyles.Left | AnchorStyles.Top);
+                Controls.Add(tb_moduleStep);
             }
         }
 
@@ -351,7 +460,10 @@ namespace WindowsFormsApp1
             }
             gp.Dispose();
             pb.Image = BM;
-            pb.Invalidate();
+            Timer timer = new Timer();
+            timer.Interval = 200;
+            timer.Tick += (sender, e) => pb.Invalidate();
+            timer.Start();
         }
 
         private void Form1_InitComp()
@@ -378,6 +490,18 @@ namespace WindowsFormsApp1
             Form2 mntdgr = new Form2("KoouZz", "123321", "Mounting");
             mntdgr.Col = Columns;
             mntdgr.Rws = Rows;
+            if (mntdgr.info != null)
+            {
+                mntdgr.info.Clear();
+            }
+            mntdgr.info.Add(Controls.Find("tb_developer", true).FirstOrDefault().Text);
+            mntdgr.info.Add(Controls.Find("tb_checker", true).FirstOrDefault().Text);
+            mntdgr.info.Add(Controls.Find("tb_controller", true).FirstOrDefault().Text);
+            mntdgr.info.Add(Controls.Find("tb_phase", true).FirstOrDefault().Text);
+            mntdgr.info.Add(Controls.Find("tb_companyName", true).FirstOrDefault().Text);
+            mntdgr.info.Add(Controls.Find("tb_moduleStep", true).FirstOrDefault().Text);
+            mntdgr.info.Add(Controls.Find("l_width0", true).FirstOrDefault().Text);
+            mntdgr.info.Add(Controls.Find("l_height0", true).FirstOrDefault().Text);
             mntdgr.Diagrame = BM;
             mntdgr.ShowDialog();
         }
