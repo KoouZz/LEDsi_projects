@@ -445,52 +445,56 @@ namespace WindowsFormsApp1
             left = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_left"+ size +"px.png");
             right = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_right"+ size +"px.png");
             Graphics graphics = Graphics.FromImage(diagrame);
-            if (Col % 2 == 1) 
+            if ((Col % 2 == 1) & (Col > 1)) 
             {
-                x0 = Convert.ToInt32(Math.Ceiling((Col / 2) * (size + (double)size / 4))) - size / 4;
+                x0 = Convert.ToInt32(Math.Ceiling((diagrame.Width - (double)size / 4) / 2 - (double)size / 2 - (double)size / 4));
             }
-            else 
+            else if ((Col % 2 == 0) & (Col > 1))
             {
-                x0 = diagrame.Width / 2 - size / 8;
+                x0 = Convert.ToInt32(Math.Ceiling((diagrame.Width - (double)size / 4) / 2 - (double)size / 8));
+            } else
+            {
+                x0 = size;
             }
-            for (int y = 0, assemb = 1; y < diagrame.Height - size / 4; y += size + size / 4)     // ПРИ СМЕНЕ ОТСТУПА МЕЖДУ КАБИНЕТАМИ МОГУТ ВОЗНИКНУТЬ ОШИБКИ В ПРОРИСОВКЕ ДИАГРАММЫ!!!
+
+            for (int y = diagrame.Height - size - size / 4, assemb = 1; y >= 0; y -= size + size / 4)     // ПРИ СМЕНЕ ОТСТУПА МЕЖДУ КАБИНЕТАМИ МОГУТ ВОЗНИКНУТЬ ОШИБКИ В ПРОРИСОВКЕ ДИАГРАММЫ!!!
             {
                 for (int x = x0, direction = size + size / 4; x < diagrame.Width - size / 4; x += size + size / 4 - 2 * direction, assemb += 2)
                 {
-
-                    if (x < ((size + size / 4) / 2 * Col))
+                    if (Col > 1)
                     {
-                        graphics.DrawImage(right, x, y);
-                        drawNumbersAssemb(graphics, 14, x + size / 15 - 6, y + size / 4, 25, 18, Convert.ToString(assemb));
-                        if (x - size - size / 4 < 0)
+
+
+                        if ((x < (diagrame.Width - size / 4) / 2))
+                        {
+                            graphics.DrawImage(right, x, y);
+                            drawNumbersAssemb(graphics, 14, x + size / 8 - 14, y + size / 4, 25, 18, Convert.ToString(assemb));
+                        }
+                        else
+                        {
+                            graphics.DrawImage(left, x, y);
+                            drawNumbersAssemb(graphics, 14, x + size / 8 - 14, y + size / 4, 25, 18, Convert.ToString(assemb));
+                        }
+
+
+                        if ((x - size - size / 4) < 0)
                         {
                             x = x0;
+                            assemb = Col * ((diagrame.Height - y) / (size + size / 4) - 1);
                             direction = 0;
-                            assemb = (y / (size + size / 4)) * Col;
                         }
-                    }
-                    else
-                    {
-                        graphics.DrawImage(left, x, y);
-                        drawNumbersAssemb(graphics, 14, x + size / 15 - 6, y + size / 4, 25, 18, Convert.ToString(assemb));
-                    }
-                    if (Col % 2 == 1)
-                    {
-                        if ((int)Math.Ceiling((double)Col / 2) == x / (size + size / 4) + 1)
-                        {
-                            graphics.DrawImage(up, x - size, y - size / 2 + size / 4);
-                            drawNumbersAssemb(graphics, 14, x - size / 3, y - size / 2 + size / 3 - 2, 25, 18, Convert.ToString((y / (size + size / 4)) * Col));
-                        }
-                    } else
-                    {
-                        if ((int)Math.Ceiling((double)Col / 2) == x / (size + size / 4))
-                        {
-                            graphics.DrawImage(down, x - size, y - size / 2 + size / 4);
-                            drawNumbersAssemb(graphics, 14, x - size / 3, y - size / 2 + size / 3 - 2, 25, 18, Convert.ToString((y / (size + size / 4)) * Col));
-                        }
-                    }
 
+
+                        if ((x + size / 4) / (size + size / 4) == Col / 2 + 1)
+                        {
+                            graphics.DrawImage(down, x - size, y - size / 4);
+                            drawNumbersAssemb(graphics, 14, x - size / 2 + 7, y - size / 8 - 9, 25, 18, Convert.ToString(Col * (diagrame.Height - y) / (size + size / 4)));
+                        }
+                   }
                 }
+
+                assemb = assemb + 1;
+
             }
         }
         private int ctToPx(double mm)

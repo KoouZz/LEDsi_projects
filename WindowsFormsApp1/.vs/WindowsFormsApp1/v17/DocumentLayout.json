@@ -26,10 +26,9 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
-<<<<<<< HEAD
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "Form1.cs",
@@ -37,10 +36,11 @@
               "RelativeDocumentMoniker": "WindowsFormsApp1\\Form1.cs",
               "ToolTip": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form1.cs",
               "RelativeToolTip": "WindowsFormsApp1\\Form1.cs",
-              "ViewState": "AgIAAFUAAAAAAAAAAAAMwGUAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAAwKQBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-23T08:30:35.231Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -50,15 +50,13 @@
               "RelativeDocumentMoniker": "WindowsFormsApp1\\Form2.cs",
               "ToolTip": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form2.cs",
               "RelativeToolTip": "WindowsFormsApp1\\Form2.cs",
-              "ViewState": "AgIAAF0BAAAAAAAAAADwv5YBAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAANMBAAAAAAAAAAAgwO8BAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-23T06:30:47.291Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
-=======
->>>>>>> develop
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
             },
@@ -72,32 +70,6 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Form2.cs",
-              "DocumentMoniker": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form2.cs",
-              "RelativeDocumentMoniker": "WindowsFormsApp1\\Form2.cs",
-              "ToolTip": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form2.cs",
-              "RelativeToolTip": "WindowsFormsApp1\\Form2.cs",
-              "ViewState": "AgIAAJQBAAAAAAAAAAAowKEBAABIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-14T04:12:26.828Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Form1.cs",
-              "DocumentMoniker": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form1.cs",
-              "RelativeDocumentMoniker": "WindowsFormsApp1\\Form1.cs",
-              "ToolTip": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form1.cs",
-              "RelativeToolTip": "WindowsFormsApp1\\Form1.cs",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAYwIQAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-27T08:35:16.266Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
               "Title": "Form2.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form2.cs",
@@ -105,8 +77,7 @@
               "ToolTip": "D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Form2.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "WindowsFormsApp1\\Form2.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-21T04:06:53.825Z",
-              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+              "WhenOpened": "2024-08-21T04:06:53.825Z"
             },
             {
               "$type": "Document",

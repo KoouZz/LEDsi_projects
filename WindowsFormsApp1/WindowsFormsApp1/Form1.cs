@@ -449,7 +449,7 @@ namespace WindowsFormsApp1
             BM = new Bitmap((img.Width + img.Width / 4) * c, (img.Height + img.Height / 4) * r);
             Graphics gp = Graphics.FromImage(BM);
             pb.Size = new Size((img.Width + img.Width / 4) * c, (img.Height + img.Height / 4) * r);
-            pb.Location = new Point(this.Width / 2 - pb.Width / 2, this.Height / 2 - pb.Height / 2);
+            pb.Location = new Point(650 - pb.Width / 2, this.Height / 2 - pb.Height / 2);
             pb.Anchor = AnchorStyles.None;
             for (int x = 0; x < BM.Width; x += img.Width + img.Width / 4)
             {
