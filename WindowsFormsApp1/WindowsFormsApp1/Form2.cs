@@ -454,16 +454,14 @@ namespace WindowsFormsApp1
                 x0 = Convert.ToInt32(Math.Ceiling((diagrame.Width - (double)size / 4) / 2 - (double)size / 8));
             } else
             {
-                x0 = size;
+                x0 = 0;
             }
-
-            for (int y = diagrame.Height - size - size / 4, assemb = 1; y >= 0; y -= size + size / 4)     // ПРИ СМЕНЕ ОТСТУПА МЕЖДУ КАБИНЕТАМИ МОГУТ ВОЗНИКНУТЬ ОШИБКИ В ПРОРИСОВКЕ ДИАГРАММЫ!!!
+            if (Col > 1)
             {
-                for (int x = x0, direction = size + size / 4; x < diagrame.Width - size / 4; x += size + size / 4 - 2 * direction, assemb += 2)
+                for (int y = diagrame.Height - size - size / 4, assemb = 1; y >= 0; y -= size + size / 4)     // ПРИ СМЕНЕ ОТСТУПА МЕЖДУ КАБИНЕТАМИ МОГУТ ВОЗНИКНУТЬ ОШИБКИ В ПРОРИСОВКЕ ДИАГРАММЫ!!!
                 {
-                    if (Col > 1)
+                    for (int x = x0, direction = size + size / 4; x < diagrame.Width - size / 4; x += size + size / 4 - 2 * direction, assemb += 2)
                     {
-
 
                         if ((x < (diagrame.Width - size / 4) / 2))
                         {
@@ -490,11 +488,35 @@ namespace WindowsFormsApp1
                             graphics.DrawImage(down, x - size, y - size / 4);
                             drawNumbersAssemb(graphics, 14, x - size / 2 + 7, y - size / 8 - 9, 25, 18, Convert.ToString(Col * (diagrame.Height - y) / (size + size / 4)));
                         }
-                   }
+
+                        if (Col == 2)
+                        {
+                            graphics.DrawImage(down, x + size / 4, y - size / 4);
+                            drawNumbersAssemb(graphics, 14, x + size / 2 + 25, y - size / 8 - 9, 25, 18, Convert.ToString(Col * (diagrame.Height - y) / (size + size / 4)));
+                        }
+
+                    }
+
+                    if (Col % 2 == 0)
+                    {
+                        assemb++;
+                    }
+
                 }
-
-                assemb = assemb + 1;
-
+            }
+            else if ((Col == 1) & (Rws != 1))
+            {
+                for (int y = diagrame.Height - size - size / 4, assemb = 1; y >= 0; y -= size + size / 4)     // ПРИ СМЕНЕ ОТСТУПА МЕЖДУ КАБИНЕТАМИ МОГУТ ВОЗНИКНУТЬ ОШИБКИ В ПРОРИСОВКЕ ДИАГРАММЫ!!!
+                {
+                    graphics.DrawImage(down, x0, y - size / 4);
+                    drawNumbersAssemb(graphics, 14, x0 + size / 2 + 6, y - size / 8 - 5, 25, 18, Convert.ToString(assemb));
+                    assemb++;
+                }
+            } else
+            {
+                int y = x0;
+                graphics.DrawImage(left, x0 + size, y);
+                drawNumbersAssemb(graphics, 14, x0 + size + 6, y + 20, 25, 18, "1");
             }
         }
         private int ctToPx(double mm)
