@@ -92,77 +92,115 @@ namespace WindowsFormsApp1
         {
 
         }
-
+        private void operationOfInformationRows(string func)
+        {
+            if (func == "add")
+            {
+                if (count < 5)
+                {
+                    //
+                    //label - l_No
+                    //
+                    Label l_No_c = new Label();
+                    l_No_c.Text = $"{count + 1}";
+                    l_No_c.Name = $"l_No{count}";
+                    l_No_c.Size = new Size(15, 30);
+                    l_No_c.Location = new Point(105, 180 + 40 * (count - 1));
+                    Controls.Add(l_No_c);
+                    //
+                    // textbox - tb_sizeW_c
+                    //
+                    TextBox tb_sizeW_c = new TextBox();
+                    tb_sizeW_c.Size = new Size(40, 30);
+                    tb_sizeW_c.Name = $"tb_sizeW{count}";
+                    tb_sizeW_c.Location = new Point(l_No_c.Location.X + l_No_c.Width + 40, l_No_c.Location.Y);
+                    tb_sizeW_c.TextAlign = HorizontalAlignment.Center;
+                    Controls.Add(tb_sizeW_c);
+                    //
+                    //label - l_x
+                    //
+                    Label l_x_c = new Label();
+                    l_x_c.Text = "x";
+                    l_x_c.Name = $"l_x{count}";
+                    l_x_c.Size = new Size(15, 30);
+                    l_x_c.Location = new Point(tb_sizeW_c.Location.X + tb_sizeW_c.Width + 5, tb_sizeW_c.Location.Y);
+                    Controls.Add(l_x_c);
+                    //
+                    //textbox - tb_sizeH
+                    //
+                    TextBox tb_sizeH_c = new TextBox();
+                    tb_sizeH_c.Size = new Size(40, 30);
+                    tb_sizeH_c.Name = $"tb_sizeH{count}";
+                    tb_sizeH_c.Location = new Point(l_x_c.Location.X + l_x_c.Width + 5, l_x_c.Location.Y);
+                    tb_sizeH_c.TextAlign = HorizontalAlignment.Center;
+                    Controls.Add(tb_sizeH_c);
+                    //
+                    //textbox - tb_count
+                    //
+                    TextBox tb_count_c = new TextBox();
+                    tb_count_c.Size = new Size(40, 30);
+                    tb_count_c.Name = $"tb_count{count}";
+                    tb_count_c.Location = new Point(tb_sizeH_c.Location.X + tb_sizeH_c.Width + 40, tb_sizeH_c.Location.Y);
+                    tb_count_c.TextAlign = HorizontalAlignment.Center;
+                    Controls.Add(tb_count_c);
+                    count++;
+                    type.Add(new List<Control> { tb_sizeW_c, tb_sizeH_c, tb_count_c });
+                }
+            }
+            if (func == "rmv")
+            {
+                if (count > 1)
+                {
+                    var l_No = Controls.Find("l_No" + Convert.ToString(count - 1), true).FirstOrDefault() as Label;
+                    var l_x = Controls.Find("l_x" + Convert.ToString(count - 1), true).FirstOrDefault() as Label;
+                    var tb_sizeW = Controls.Find("tb_sizeW" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
+                    var tb_sizeH = Controls.Find("tb_sizeH" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
+                    var tb_count = Controls.Find("tb_count" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
+                    Controls.Remove(l_No);
+                    Controls.Remove(l_x);
+                    Controls.Remove(tb_sizeW);
+                    Controls.Remove(tb_sizeH);
+                    Controls.Remove(tb_count);
+                    count--;
+                }
+            }
+        }
         private void b_add_Click(object sender, EventArgs e)
         {
-            if (count < 5)
+            operationOfInformationRows("add");
+        }
+
+        private void b_autoEquip_Click(object sender, EventArgs e)
+        {
+            try
             {
-                //
-                //label - l_No
-                //
-                Label l_No_c = new Label();
-                l_No_c.Text = $"{count + 1}";
-                l_No_c.Name = $"l_No{count}";
-                l_No_c.Size = new Size(15, 30);
-                l_No_c.Location = new Point(105, 100 + 40 * (count - 1));
-                Controls.Add(l_No_c);
-                //
-                // textbox - tb_sizeW_c
-                //
-                TextBox tb_sizeW_c = new TextBox();
-                tb_sizeW_c.Size = new Size(40, 30);
-                tb_sizeW_c.Name = $"tb_sizeW{count}";
-                tb_sizeW_c.Location = new Point(l_No_c.Location.X + l_No_c.Width + 40, l_No_c.Location.Y);
-                tb_sizeW_c.TextAlign = HorizontalAlignment.Center;
-                Controls.Add(tb_sizeW_c);
-                //
-                //label - l_x
-                //
-                Label l_x_c = new Label();
-                l_x_c.Text = "x";
-                l_x_c.Name = $"l_x{count}";
-                l_x_c.Size = new Size(15, 30);
-                l_x_c.Location = new Point(tb_sizeW_c.Location.X + tb_sizeW_c.Width + 5, tb_sizeW_c.Location.Y);
-                Controls.Add(l_x_c);
-                //
-                //textbox - tb_sizeH
-                //
-                TextBox tb_sizeH_c = new TextBox();
-                tb_sizeH_c.Size = new Size(40, 30);
-                tb_sizeH_c.Name = $"tb_sizeH{count}";
-                tb_sizeH_c.Location = new Point(l_x_c.Location.X + l_x_c.Width + 5, l_x_c.Location.Y);
-                tb_sizeH_c.TextAlign = HorizontalAlignment.Center;
-                Controls.Add(tb_sizeH_c);
-                //
-                //textbox - tb_count
-                //
-                TextBox tb_count_c = new TextBox();
-                tb_count_c.Size = new Size(40, 30);
-                tb_count_c.Name = $"tb_count{count}";
-                tb_count_c.Location = new Point(tb_sizeH_c.Location.X + tb_sizeH_c.Width + 40, tb_sizeH_c.Location.Y);
-                tb_count_c.TextAlign = HorizontalAlignment.Center;
-                Controls.Add(tb_count_c);
-                count++;
-                type.Add(new List<Control> { tb_sizeW_c, tb_sizeH_c, tb_count_c });
+                bool isNumW = Int32.TryParse(Controls.Find("tb_screenWidth", true).FirstOrDefault().Text, out int screenW);
+                bool isNumH = Int32.TryParse(Controls.Find("tb_screenHeight", true).FirstOrDefault().Text, out int screenH);
+                if (!isNumW || !isNumH)
+                {
+                    throw new Exception("Размеры экрана заданы неверно");
+                } else if ((screenW % 320 != 0) | (screenH % 160 != 0)) 
+                {
+                    throw new Exception("Размеры экрана не кратны модулю 320x160");
+                } else 
+                { 
+                    fillInfoCabinets(cabinetCalculator(screenW, screenH));
+                }
+            } catch (Exception ex)
+            {
+                DialogResult error = MessageBox.Show(ex.Message, "ОШИБКА", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (error == DialogResult.OK)
+                {
+                    Controls.Find("tb_screenWidth", true).FirstOrDefault().Text = "";
+                    Controls.Find("tb_screenHeight", true).FirstOrDefault().Text = "";
+                    Controls.Find("tb_screenWidth", true).FirstOrDefault().Focus();
+                }
             }
         }
 
         private void b_rmv_Click(object sender, EventArgs e)
         {
-            if (count > 1)
-            {
-                var l_No = Controls.Find("l_No" + Convert.ToString(count-1), true).FirstOrDefault() as Label;
-                var l_x = Controls.Find("l_x" + Convert.ToString(count-1), true).FirstOrDefault() as Label;
-                var tb_sizeW = Controls.Find("tb_sizeW" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
-                var tb_sizeH = Controls.Find("tb_sizeH" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
-                var tb_count = Controls.Find("tb_count" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
-                Controls.Remove(l_No);
-                Controls.Remove(l_x);
-                Controls.Remove(tb_sizeW);
-                Controls.Remove(tb_sizeH);
-                Controls.Remove(tb_count);
-                count--;
-            }
+            operationOfInformationRows("rmv");
         }
 
         private void Form2_InitComp (string type_form)
@@ -264,13 +302,20 @@ namespace WindowsFormsApp1
             if (type_form == "dataIN")
             {
                 data_Form();
+
+                Button b_autoEquip = new Button();
+                b_autoEquip.Text = "Рекомендованные кабинеты";
+                b_autoEquip.Size = new Size(250, 30);
+                b_autoEquip.Location = new Point(Width - b_autoEquip.Width - 25, Height - 2 * b_autoEquip.Height - 20);
+                b_autoEquip.Click += b_autoEquip_Click;
+                Controls.Add(b_autoEquip);
                 //
                 //button - b_sendData
                 //
                 Button b_sendData = new Button();
                 b_sendData.Text = "Save";
                 b_sendData.Size = new Size(60, 30);
-                b_sendData.Location = new Point(20, 283 - b_sendData.Height - 20);
+                b_sendData.Location = new Point(20, Height - 2 * b_sendData.Height - 20);
                 b_sendData.Click += b_sendData_Click;
                 Controls.Add(b_sendData);
                 //
@@ -298,7 +343,7 @@ namespace WindowsFormsApp1
                 l_No.Text = "1";
                 l_No.Name = "l_No0";
                 l_No.Size = new Size(15, 30);
-                l_No.Location = new Point(b_rmv.Location.X + b_rmv.Width + 20, b_rmv.Location.Y + b_rmv.Height + 10);
+                l_No.Location = new Point(b_rmv.Location.X + b_rmv.Width + 20, b_rmv.Location.Y + b_rmv.Height + 10 + 80);
                 Controls.Add(l_No);
                 //
                 //textbox - tb_sizeW
@@ -341,7 +386,7 @@ namespace WindowsFormsApp1
                 Label l_sizeW = new Label();
                 l_sizeW.Text = "W";
                 l_sizeW.Size = new Size(20, 20);
-                l_sizeW.Location = new Point(tb_sizeW.Location.X + tb_sizeW.Width/2 - l_sizeW.Width/2, b_rmv.Location.Y + b_rmv.Height/2 - l_sizeW.Height/2);
+                l_sizeW.Location = new Point(tb_sizeW.Location.X + tb_sizeW.Width/2 - l_sizeW.Width/2, b_rmv.Location.Y + b_rmv.Height/2 - l_sizeW.Height/2 + 80);
                 Controls.Add(l_sizeW);
                 //
                 //label - l_sizeH
@@ -360,31 +405,45 @@ namespace WindowsFormsApp1
                 l_count.Location = new Point(tb_count.Location.X + tb_count.Width / 2 - l_count.Width / 2, l_sizeW.Location.Y);
                 Controls.Add(l_count);
 
+                Label l_screenWidth = new Label();
+                Label l_screenHeight = new Label();
+                TextBox tb_screenWidth = new TextBox();
+                TextBox tb_screenHeight = new TextBox();
+                Label l_screenX = new Label();
+
+                l_screenWidth.Location = new Point(b_rmv.Location.X + b_rmv.Width + 20, b_rmv.Location.Y);
+                l_screenWidth.Size = new Size(125, 23);
+                l_screenWidth.Text = "Ширина экрана";
+                Controls.Add(l_screenWidth);
+
+                l_screenHeight.Location = new Point(l_screenWidth.Location.X + l_screenWidth.Width + 5, l_screenWidth.Location.Y);
+                l_screenHeight.Size = new Size(125, 23);
+                l_screenHeight.Text = "Высота экрана";
+                Controls.Add(l_screenHeight);
+
+                tb_screenWidth.Size = new Size(100, 25);
+                tb_screenWidth.Location = new Point(l_screenWidth.Location.X + l_screenWidth.Width / 2 - tb_screenWidth.Width / 2, l_screenWidth.Location.Y + l_screenWidth.Height + 15);
+                tb_screenWidth.TextAlign = HorizontalAlignment.Center;
+                tb_screenWidth.Name = "tb_screenWidth";
+                Controls.Add(tb_screenWidth);
+
+                tb_screenHeight.Size = new Size(100, 25);
+                tb_screenHeight.Location = new Point(l_screenHeight.Location.X + l_screenHeight.Width / 2 - tb_screenWidth.Width / 2, tb_screenWidth.Location.Y);
+                tb_screenHeight.TextAlign = HorizontalAlignment.Center;
+                tb_screenHeight.Name = "tb_screenHeight";
+                Controls.Add(tb_screenHeight);
+
+                l_screenX.Text = "x";
+                l_screenX.Size = new Size(15, 23);
+                l_screenX.Location = new Point(tb_screenHeight.Location.X + tb_screenWidth.Width - tb_screenWidth.Location.X - l_screenX.Width / 2, tb_screenWidth.Location.Y + tb_screenWidth.Height / 2 - l_screenX.Height / 2);
+                Controls.Add(l_screenX);
+
                 type.Add(new List<Control> { tb_sizeW, tb_sizeH, tb_count });
 
             }
-            if (type_form == "Mounting")
-            {
-                Controls.Cast<Control>().ToList().ForEach(i => i.Visible = false);
-                this.Width = 960;
-                this.Height = 540;
-                this.WindowState = FormWindowState.Maximized;
-                Button bt_draw = new Button();
-                bt_draw.Text = "Нарисовать";
-                bt_draw.Size = new Size(100, 40);
-                bt_draw.Location = new Point(this.Width / 2 - bt_draw.Width / 2, this.Height / 2 - bt_draw.Height / 2);
-                bt_draw.Click += bt_draw_Click;
-                Controls.Add(bt_draw);
-            }
         }
 
-        private void bt_draw_Click(object sender, EventArgs e)
-        {
-            A3Format();
-            Close();
-        }
-
-        private void A3Format()
+        public void A3Format()
         {
             Bitmap mountingDiagrame = new Bitmap(1587, 1123);
             drawBoardsOfPage(mountingDiagrame); //Рисует границы листа 
@@ -840,10 +899,124 @@ namespace WindowsFormsApp1
         private void data_Form()
         {
             this.Width = 380;
-            this.Height = 320;
+            this.Height = 450;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+        }
+
+        private List<Cabinets> cabinetCalculator(int W, int H)
+        {
+            int modulesW = W / 320;
+            int modulesH = H / 160;
+            List<Cabinets> cabinets = new List<Cabinets>();
+            if ((modulesW >= 3) & (modulesW % 3 == 0))
+            {
+                cabinets.Add(new Cabinets { value = modulesW / 3, Resolution = "960", side = "width" });
+            }
+            else if ((modulesW >= 3) & (modulesW % 3 == 1))
+            {
+                cabinets.Add(new Cabinets { value = (modulesW - 4) / 3, Resolution = "960", side = "width" });
+                cabinets.Add(new Cabinets { value = 1, Resolution = "1280", side = "width" });
+            }
+            else if ((modulesW >= 3) & (modulesW % 3 == 2))
+            {
+                cabinets.Add(new Cabinets { value = (modulesW - 2) / 3, Resolution = "960", side = "width" });
+                cabinets.Add(new Cabinets { value = 1, Resolution = "640", side = "width" });
+            }
+            //////////////////////////////////
+            if ((modulesH >= 6) & (modulesH % 6 == 0))
+            {
+                cabinets.Add(new Cabinets { value = modulesH / 6, Resolution = "960", side = "height" });
+            }
+            else if ((modulesH >= 6) & (modulesH % 6 == 1))
+            {
+                cabinets.Add(new Cabinets { value = (modulesH - 7) / 6, Resolution = "960", side = "height" });
+                cabinets.Add(new Cabinets { value = 1, Resolution = "1120", side = "height" });
+            }
+            else if ((modulesH >= 6) & (modulesH % 6 == 2))
+            {
+                cabinets.Add(new Cabinets { value = (modulesH - 8) / 6, Resolution = "960", side = "height" });
+                cabinets.Add(new Cabinets { value = 1, Resolution = "1280", side = "height" });
+            }
+            else if ((modulesH >= 6) & (modulesH % 6 == 4))
+            {
+                cabinets.Add(new Cabinets { value = (modulesH - 4) / 6, Resolution = "960", side = "height" });
+                cabinets.Add(new Cabinets { value = 1, Resolution = "640", side = "height" });
+            }
+            else if ((modulesH >= 6) & (modulesH % 6 == 5))
+            {
+                cabinets.Add(new Cabinets { value = (modulesH - 5) / 6, Resolution = "960", side = "height" });
+                cabinets.Add(new Cabinets { value = 1, Resolution = "800", side = "height" });
+            }
+            else if ((modulesH >= 6) & (modulesH % 2 == 0) & (modulesH % 6 == 3))
+            {
+                cabinets.Add(new Cabinets { value = (modulesH - 15) / 6, Resolution = "960", side = "height" });
+                cabinets.Add(new Cabinets { value = 3, Resolution = "800", side = "height" });
+            }
+            else if ((modulesH >= 6) & (modulesH % 2 == 1) & (modulesH % 6 == 3))
+            {
+                cabinets.Add(new Cabinets { value = (modulesH - 21) / 6, Resolution = "960", side = "height" });
+                cabinets.Add(new Cabinets { value = 3, Resolution = "1120", side = "height" });
+            } 
+            
+            if (modulesW == 2)
+            {
+                cabinets.Add(new Cabinets { value = 1, Resolution = "640", side = "width" });
+            }
+            else
+            {
+                new Exception("Ширина кабинета слишком мала");
+            }
+
+            if (modulesH == 4)
+            {
+                cabinets.Add(new Cabinets { value = 1, Resolution = "640", side = "height" });
+            } else if (modulesW == 5)
+            {
+                cabinets.Add(new Cabinets { value = 1, Resolution = "800", side = "height" });
+            } else
+            {
+                new Exception("Высота кабинета слишком мала");
+            }
+
+                return cabinets;
+        }
+        private void fillInfoCabinets(List<Cabinets> info)
+        {
+            string value = (List<Cabinets> c, string res) => {
+                if (res != null) { return "123"; }
+            };
+            int countH = 0, countW = 0;
+            int N = 1;
+            foreach (var i in info)
+            {
+                if (i.side == "width")
+                {
+                    Console.WriteLine($"Кабинет шириной {i.Resolution}мм в числе {i.value}");
+                    countW++;
+                }
+                
+                if (i.side == "height")
+                {
+                    Console.WriteLine($"Кабинет высотой {i.Resolution}мм в числе {i.value}");
+                    countH++;
+                }
+            }
+
+            if (((countW == 2) & (countH != 2)) | ((countW != 2) & (countH == 2)))
+            {
+                N = 2;
+            } else if ((countW == 2) & (countH == 2))
+            {
+                N = 4;
+            }
+
+            Controls.Find("tb_sizeH0", true).FirstOrDefault().Text = 
+            for (int i = 0; i < N; i++)
+            {
+                operationOfInformationRows("add");
+            }
         }
 
         private void login_Form()

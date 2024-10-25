@@ -503,7 +503,7 @@ namespace WindowsFormsApp1
             mntdgr.info.Add(Controls.Find("l_width0", true).FirstOrDefault().Text);
             mntdgr.info.Add(Controls.Find("l_height0", true).FirstOrDefault().Text);
             mntdgr.Diagrame = BM;
-            mntdgr.ShowDialog();
+            mntdgr.A3Format();
         }
 
         private void button1_Click(object sender, EventArgs e)
