@@ -183,7 +183,11 @@ namespace WindowsFormsApp1
                 {
                     throw new Exception("Размеры экрана не кратны модулю 320x160");
                 } else 
-                { 
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        operationOfInformationRows("rmv");
+                    }
                     fillInfoCabinets(cabinetCalculator(screenW, screenH));
                 }
             } catch (Exception ex)
@@ -912,57 +916,57 @@ namespace WindowsFormsApp1
             List<Cabinets> cabinets = new List<Cabinets>();
             if ((modulesW >= 3) & (modulesW % 3 == 0))
             {
-                cabinets.Add(new Cabinets { value = modulesW / 3, Resolution = "960", side = "width" });
+                cabinets.Add(new Cabinets { Value = modulesW / 3, Resolution = "960", Side = "width" });
             }
             else if ((modulesW >= 3) & (modulesW % 3 == 1))
             {
-                cabinets.Add(new Cabinets { value = (modulesW - 4) / 3, Resolution = "960", side = "width" });
-                cabinets.Add(new Cabinets { value = 1, Resolution = "1280", side = "width" });
+                cabinets.Add(new Cabinets { Value = (modulesW - 4) / 3, Resolution = "960", Side = "width" });
+                cabinets.Add(new Cabinets { Value = 1, Resolution = "1280", Side = "width" });
             }
             else if ((modulesW >= 3) & (modulesW % 3 == 2))
             {
-                cabinets.Add(new Cabinets { value = (modulesW - 2) / 3, Resolution = "960", side = "width" });
-                cabinets.Add(new Cabinets { value = 1, Resolution = "640", side = "width" });
+                cabinets.Add(new Cabinets { Value = (modulesW - 2) / 3, Resolution = "960", Side = "width" });
+                cabinets.Add(new Cabinets { Value = 1, Resolution = "640", Side = "width" });
             }
             //////////////////////////////////
             if ((modulesH >= 6) & (modulesH % 6 == 0))
             {
-                cabinets.Add(new Cabinets { value = modulesH / 6, Resolution = "960", side = "height" });
+                cabinets.Add(new Cabinets { Value = modulesH / 6, Resolution = "960", Side = "height" });
             }
-            else if ((modulesH >= 6) & (modulesH % 6 == 1))
+            else if ((modulesH >= 6) & (modulesH % 6 == 1) & (modulesH % 5 != 0))
             {
-                cabinets.Add(new Cabinets { value = (modulesH - 7) / 6, Resolution = "960", side = "height" });
-                cabinets.Add(new Cabinets { value = 1, Resolution = "1120", side = "height" });
+                cabinets.Add(new Cabinets { Value = (modulesH - 7) / 6, Resolution = "960", Side = "height" });
+                cabinets.Add(new Cabinets { Value = 1, Resolution = "1120", Side = "height" });
             }
-            else if ((modulesH >= 6) & (modulesH % 6 == 2))
+            else if ((modulesH >= 6) & (modulesH % 6 == 2) & (modulesH % 5 != 0))
             {
-                cabinets.Add(new Cabinets { value = (modulesH - 8) / 6, Resolution = "960", side = "height" });
-                cabinets.Add(new Cabinets { value = 1, Resolution = "1280", side = "height" });
+                cabinets.Add(new Cabinets { Value = (modulesH - 8) / 6, Resolution = "960", Side = "height" });
+                cabinets.Add(new Cabinets { Value = 1, Resolution = "1280", Side = "height" });
             }
-            else if ((modulesH >= 6) & (modulesH % 6 == 4))
+            else if ((modulesH >= 6) & (modulesH % 6 == 4) & (modulesH % 5 != 0))
             {
-                cabinets.Add(new Cabinets { value = (modulesH - 4) / 6, Resolution = "960", side = "height" });
-                cabinets.Add(new Cabinets { value = 1, Resolution = "640", side = "height" });
+                cabinets.Add(new Cabinets { Value = (modulesH - 4) / 6, Resolution = "960", Side = "height" });
+                cabinets.Add(new Cabinets { Value = 1, Resolution = "640", Side = "height" });
             }
-            else if ((modulesH >= 6) & (modulesH % 6 == 5))
+            else if ((modulesH >= 6) & (modulesH % 6 == 5) & (modulesH % 5 != 0))
             {
-                cabinets.Add(new Cabinets { value = (modulesH - 5) / 6, Resolution = "960", side = "height" });
-                cabinets.Add(new Cabinets { value = 1, Resolution = "800", side = "height" });
+                cabinets.Add(new Cabinets { Value = (modulesH - 5) / 6, Resolution = "960", Side = "height" });
+                cabinets.Add(new Cabinets { Value = 1, Resolution = "800", Side = "height" });
             }
-            else if ((modulesH >= 6) & (modulesH % 2 == 0) & (modulesH % 6 == 3))
+            else if ((modulesH >= 6) & (modulesH % 2 == 0) & (modulesH % 6 == 3) & (modulesH % 5 != 0))
             {
-                cabinets.Add(new Cabinets { value = (modulesH - 15) / 6, Resolution = "960", side = "height" });
-                cabinets.Add(new Cabinets { value = 3, Resolution = "800", side = "height" });
+                cabinets.Add(new Cabinets { Value = (modulesH - 15) / 6, Resolution = "960", Side = "height" });
+                cabinets.Add(new Cabinets { Value = 3, Resolution = "800", Side = "height" });
             }
-            else if ((modulesH >= 6) & (modulesH % 2 == 1) & (modulesH % 6 == 3))
+            else if ((modulesH >= 6) & (modulesH % 2 == 1) & (modulesH % 6 == 3) & (modulesH % 5 != 0))
             {
-                cabinets.Add(new Cabinets { value = (modulesH - 21) / 6, Resolution = "960", side = "height" });
-                cabinets.Add(new Cabinets { value = 3, Resolution = "1120", side = "height" });
+                cabinets.Add(new Cabinets { Value = (modulesH - 21) / 6, Resolution = "960", Side = "height" });
+                cabinets.Add(new Cabinets { Value = 3, Resolution = "1120", Side = "height" });
             } 
             
             if (modulesW == 2)
             {
-                cabinets.Add(new Cabinets { value = 1, Resolution = "640", side = "width" });
+                cabinets.Add(new Cabinets { Value = 1, Resolution = "640", Side = "width" });
             }
             else
             {
@@ -971,51 +975,56 @@ namespace WindowsFormsApp1
 
             if (modulesH == 4)
             {
-                cabinets.Add(new Cabinets { value = 1, Resolution = "640", side = "height" });
+                cabinets.Add(new Cabinets { Value = 1, Resolution = "640", Side = "height" });
             } else if (modulesW == 5)
             {
-                cabinets.Add(new Cabinets { value = 1, Resolution = "800", side = "height" });
+                cabinets.Add(new Cabinets { Value = 1, Resolution = "800", Side = "height" });
             } else
             {
                 new Exception("Высота кабинета слишком мала");
+            }
+
+            if((modulesH >= 6) & (modulesH % 5 == 0))
+            {
+                cabinets.Add(new Cabinets { Value = modulesH * 160 / 800, Resolution = "800", Side = "height" });
             }
 
                 return cabinets;
         }
         private void fillInfoCabinets(List<Cabinets> info)
         {
-            string value = (List<Cabinets> c, string res) => {
-                if (res != null) { return "123"; }
-            };
-            int countH = 0, countW = 0;
-            int N = 1;
+            List<string> moduleH = new List<string>();
+            List<string> moduleW = new List<string>();
+            int N = 0;
             foreach (var i in info)
             {
-                if (i.side == "width")
+                if((i.Side == "width"))
                 {
-                    Console.WriteLine($"Кабинет шириной {i.Resolution}мм в числе {i.value}");
-                    countW++;
-                }
-                
-                if (i.side == "height")
+                    moduleW.Add(i.Resolution);
+                } 
+                else if (i.Side == "height")
                 {
-                    Console.WriteLine($"Кабинет высотой {i.Resolution}мм в числе {i.value}");
-                    countH++;
+                    moduleH.Add(i.Resolution);
                 }
             }
 
-            if (((countW == 2) & (countH != 2)) | ((countW != 2) & (countH == 2)))
-            {
-                N = 2;
-            } else if ((countW == 2) & (countH == 2))
-            {
-                N = 4;
-            }
+            N = moduleW.Count * moduleH.Count;
+            int k = 0;
 
-            Controls.Find("tb_sizeH0", true).FirstOrDefault().Text = 
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < N - 1; i++)
             {
                 operationOfInformationRows("add");
+            }
+
+            foreach (string w in  moduleW)
+            {
+                foreach (string h in moduleH)
+                {
+                    Controls.Find($"tb_sizeW{k}", true).FirstOrDefault().Text = w;
+                    Controls.Find($"tb_sizeH{k}", true).FirstOrDefault().Text = h;
+                    Controls.Find($"tb_count{k}", true).FirstOrDefault().Text = Convert.ToString(info.Find(v => v.Resolution == w & v.Side == "width").Value * info.Find(v => v.Resolution == h & v.Side == "height").Value);
+                    k++;
+                }
             }
         }
 
