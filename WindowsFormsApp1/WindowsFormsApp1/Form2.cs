@@ -16,6 +16,7 @@ namespace WindowsFormsApp1
 {
     public partial class Form2 : Form
     {
+        #region Переменные для монтажной диаграммы
         private Bitmap diagrame_bmp;
         public Bitmap Diagrame
         {
@@ -39,6 +40,7 @@ namespace WindowsFormsApp1
         private List<List<Control>> type = new List<List<Control>>();
         public List<List<Control>> Type
         {
+            set { type = value; }
             get { return type; }
         }
 
@@ -50,6 +52,7 @@ namespace WindowsFormsApp1
 
         public List<string> info = new List<string>();
 
+        #endregion
 
         public Form2(string login_sgn, string psw, string type)
         {
@@ -92,120 +95,7 @@ namespace WindowsFormsApp1
         {
 
         }
-        private void operationOfInformationRows(string func)
-        {
-            if (func == "add")
-            {
-                if (count < 5)
-                {
-                    //
-                    //label - l_No
-                    //
-                    Label l_No_c = new Label();
-                    l_No_c.Text = $"{count + 1}";
-                    l_No_c.Name = $"l_No{count}";
-                    l_No_c.Size = new Size(15, 30);
-                    l_No_c.Location = new Point(105, 180 + 40 * (count - 1));
-                    Controls.Add(l_No_c);
-                    //
-                    // textbox - tb_sizeW_c
-                    //
-                    TextBox tb_sizeW_c = new TextBox();
-                    tb_sizeW_c.Size = new Size(40, 30);
-                    tb_sizeW_c.Name = $"tb_sizeW{count}";
-                    tb_sizeW_c.Location = new Point(l_No_c.Location.X + l_No_c.Width + 40, l_No_c.Location.Y);
-                    tb_sizeW_c.TextAlign = HorizontalAlignment.Center;
-                    Controls.Add(tb_sizeW_c);
-                    //
-                    //label - l_x
-                    //
-                    Label l_x_c = new Label();
-                    l_x_c.Text = "x";
-                    l_x_c.Name = $"l_x{count}";
-                    l_x_c.Size = new Size(15, 30);
-                    l_x_c.Location = new Point(tb_sizeW_c.Location.X + tb_sizeW_c.Width + 5, tb_sizeW_c.Location.Y);
-                    Controls.Add(l_x_c);
-                    //
-                    //textbox - tb_sizeH
-                    //
-                    TextBox tb_sizeH_c = new TextBox();
-                    tb_sizeH_c.Size = new Size(40, 30);
-                    tb_sizeH_c.Name = $"tb_sizeH{count}";
-                    tb_sizeH_c.Location = new Point(l_x_c.Location.X + l_x_c.Width + 5, l_x_c.Location.Y);
-                    tb_sizeH_c.TextAlign = HorizontalAlignment.Center;
-                    Controls.Add(tb_sizeH_c);
-                    //
-                    //textbox - tb_count
-                    //
-                    TextBox tb_count_c = new TextBox();
-                    tb_count_c.Size = new Size(40, 30);
-                    tb_count_c.Name = $"tb_count{count}";
-                    tb_count_c.Location = new Point(tb_sizeH_c.Location.X + tb_sizeH_c.Width + 40, tb_sizeH_c.Location.Y);
-                    tb_count_c.TextAlign = HorizontalAlignment.Center;
-                    Controls.Add(tb_count_c);
-                    count++;
-                    type.Add(new List<Control> { tb_sizeW_c, tb_sizeH_c, tb_count_c });
-                }
-            }
-            if (func == "rmv")
-            {
-                if (count > 1)
-                {
-                    var l_No = Controls.Find("l_No" + Convert.ToString(count - 1), true).FirstOrDefault() as Label;
-                    var l_x = Controls.Find("l_x" + Convert.ToString(count - 1), true).FirstOrDefault() as Label;
-                    var tb_sizeW = Controls.Find("tb_sizeW" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
-                    var tb_sizeH = Controls.Find("tb_sizeH" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
-                    var tb_count = Controls.Find("tb_count" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
-                    Controls.Remove(l_No);
-                    Controls.Remove(l_x);
-                    Controls.Remove(tb_sizeW);
-                    Controls.Remove(tb_sizeH);
-                    Controls.Remove(tb_count);
-                    count--;
-                }
-            }
-        }
-        private void b_add_Click(object sender, EventArgs e)
-        {
-            operationOfInformationRows("add");
-        }
 
-        private void b_autoEquip_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                bool isNumW = Int32.TryParse(Controls.Find("tb_screenWidth", true).FirstOrDefault().Text, out int screenW);
-                bool isNumH = Int32.TryParse(Controls.Find("tb_screenHeight", true).FirstOrDefault().Text, out int screenH);
-                if (!isNumW || !isNumH)
-                {
-                    throw new Exception("Размеры экрана заданы неверно");
-                } else if ((screenW % 320 != 0) | (screenH % 160 != 0)) 
-                {
-                    throw new Exception("Размеры экрана не кратны модулю 320x160");
-                } else 
-                {
-                    for (int i = 0; i < 5; i++)
-                    {
-                        operationOfInformationRows("rmv");
-                    }
-                    fillInfoCabinets(cabinetCalculator(screenW, screenH));
-                }
-            } catch (Exception ex)
-            {
-                DialogResult error = MessageBox.Show(ex.Message, "ОШИБКА", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                if (error == DialogResult.OK)
-                {
-                    Controls.Find("tb_screenWidth", true).FirstOrDefault().Text = "";
-                    Controls.Find("tb_screenHeight", true).FirstOrDefault().Text = "";
-                    Controls.Find("tb_screenWidth", true).FirstOrDefault().Focus();
-                }
-            }
-        }
-
-        private void b_rmv_Click(object sender, EventArgs e)
-        {
-            operationOfInformationRows("rmv");
-        }
 
         private void Form2_InitComp (string type_form)
         {
@@ -447,19 +337,79 @@ namespace WindowsFormsApp1
             }
         }
 
-        public void A3Format()
+        
+
+        private void login_Form()
         {
-            Bitmap mountingDiagrame = new Bitmap(1587, 1123);
-            drawBoardsOfPage(mountingDiagrame); //Рисует границы листа 
-            drawTitleBlock(mountingDiagrame); //Рисует основную надпись
-            writeTextInTitleBlock(mountingDiagrame); //Текст оформления
-            writeDate(mountingDiagrame); //Дата в колонке "Дата"
-            drawArrowsAndNumbersOfAssemb(mountingDiagrame, diagrame_bmp);
-            drawNumbersAssemb(mountingDiagrame, diagrame_bmp);
-            InputDiagrame(mountingDiagrame, diagrame_bmp);
-            drawTableWithInfoOfCabinet(mountingDiagrame);
-            mountingDiagrame.Save("C:\\Users\\user\\Desktop\\1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            this.Width = 420;
+            this.Height = 300;
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
+        //
+        // Основная функция для прорисовки схем
+        //
+        public void A3Format(string diagram)
+        {
+
+            Bitmap format = new Bitmap(1587, 1123);
+            drawBoardsOfPage(format); //Рисует границы листа 
+            drawTitleBlock(format); //Рисует основную надпись
+            writeTextInTitleBlock(format); //Текст оформления
+            writeDate(format); //Дата в колонке "Дата"
+
+            if (diagram == "mounting")
+            {
+                drawArrowsAndNumbersOfAssemb(format, diagrame_bmp);
+                drawNumbersAssemb(format, diagrame_bmp);
+                InputDiagrame(format, diagrame_bmp);
+                drawTableWithInfoOfCabinet(format);
+                format.Save("C:\\Users\\user\\Desktop\\1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            } 
+            else if (diagram == "lowpower")
+            {
+                try
+                {
+                    int width = 0, height = 0;
+                    double step = 0;
+                    int resolution = Convert.ToInt32((double)diagrame_bmp.Width / (double)Col / 1.25);
+                    if (Type[0].Find(x => x.Name == "tb_moduleStep").Text != null)
+                    {
+                        step = Convert.ToDouble(Type[0].Find(x => x.Name == "tb_moduleStep").Text);
+                        width = Convert.ToInt32(Type[0].Find(x => x.Name == "l_width0").Text);
+                        height = Convert.ToInt32(Type[0].Find(x => x.Name == "l_height0").Text);
+                    }
+                    else
+                    {
+                        new Exception("Поле шага пикселя пустое");
+                    }
+                    boldBoardsOfCabinet(diagrame_bmp, resolution);
+                    drawReceivingCards(diagrame_bmp, resolution);
+                    insertTextInReceivingCard(diagrame_bmp, resolution, $"передающая карта {Convert.ToInt32(width / step)}x{Convert.ToInt32(height / step)}");
+                    InputDiagrame(format, diagrame_bmp);
+                    format.Save("C:\\Users\\user\\Desktop\\2.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+                } catch (Exception e)
+                {
+                    MessageBox.Show(e.Message);
+                    Close();
+                }
+            }
+        }
+        //
+        //
+        //
+
+        private int ctToPx(double mm)
+        {
+            // Перевод из милиметров в пиксели с dpi = 96
+            mm = (int)Math.Round(mm * 96 / 25.4);
+            return (int)mm;
+        }
+
+        #region Монтажная схема
+
+
         private void drawTableWithInfoOfCabinet(Bitmap bmp)
         {
             drawLineGoriz(bmp, 60, 200, 0, 0.5, "left");
@@ -493,7 +443,7 @@ namespace WindowsFormsApp1
         private void drawNumbersAssemb(Bitmap format, Bitmap diagrame)
         {
             int size = (int)Math.Ceiling(Convert.ToDouble(diagrame.Width) * 4 / (5 * Col));     // ПРИ СМЕНЕ ОТСТУПА МЕЖДУ КАБИНЕТАМИ МОГУТ ВОЗНИКНУТЬ ОШИБКИ В ПРОРИСОВКЕ ДИАГРАММЫ!!!
-            
+
         }
         private void drawArrowsAndNumbersOfAssemb(Bitmap format, Bitmap diagrame)
         {
@@ -503,19 +453,20 @@ namespace WindowsFormsApp1
             System.Drawing.Image down;
             System.Drawing.Image left;
             System.Drawing.Image right;
-            up = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_up" + size +"px.png");
-            down = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_down"+ size +"px.png");
-            left = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_left"+ size +"px.png");
-            right = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_right"+ size +"px.png");
+            up = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_up" + size + "px.png");
+            down = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_down" + size + "px.png");
+            left = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_left" + size + "px.png");
+            right = System.Drawing.Image.FromFile(@"D:\Projects\C# learning\Console\LEDsi_projects\WindowsFormsApp1\WindowsFormsApp1\Pictures\arrow_right" + size + "px.png");
             Graphics graphics = Graphics.FromImage(diagrame);
-            if ((Col % 2 == 1) & (Col > 1)) 
+            if ((Col % 2 == 1) & (Col > 1))
             {
                 x0 = Convert.ToInt32(Math.Ceiling((diagrame.Width - (double)size / 4) / 2 - (double)size / 2 - (double)size / 4));
             }
             else if ((Col % 2 == 0) & (Col > 1))
             {
                 x0 = Convert.ToInt32(Math.Ceiling((diagrame.Width - (double)size / 4) / 2 - (double)size / 8));
-            } else
+            }
+            else
             {
                 x0 = 0;
             }
@@ -575,18 +526,13 @@ namespace WindowsFormsApp1
                     drawNumbersAssemb(graphics, 14, x0 + size / 2 + 6, y - size / 8 - 5, 25, 18, Convert.ToString(assemb));
                     assemb++;
                 }
-            } else
+            }
+            else
             {
                 int y = x0;
                 graphics.DrawImage(left, x0 + size, y);
                 drawNumbersAssemb(graphics, 14, x0 + size + 6, y + 20, 25, 18, "1");
             }
-        }
-        private int ctToPx(double mm)
-        {
-            // Перевод из милиметров в пиксели с dpi = 96
-            mm = (int)Math.Round(mm * 96 / 25.4);
-            return (int)mm;
         }
         private void drawBoardsOfPage(Bitmap bmp)
         {
@@ -648,7 +594,7 @@ namespace WindowsFormsApp1
             writeText(bmp, 12, 131, 25, 10, 5, "right", thisDay.ToString("MM") + "." + thisDay.ToString("yy"));
             writeText(bmp, 12, 131, 10, 10, 5, "right", thisDay.ToString("MM") + "." + thisDay.ToString("yy"));
         }
-        private void drawLineGoriz (Bitmap bmp, int height, int length, int x0, double widthPen, string mode)
+        private void drawLineGoriz(Bitmap bmp, int height, int length, int x0, double widthPen, string mode)
         {
             int y = bmp.Height - ctToPx(20) - ctToPx(0.5) - ctToPx(height);
             if (mode == "right")
@@ -698,7 +644,7 @@ namespace WindowsFormsApp1
                 }
             }
         }
-        private void drawLineVert (Bitmap bmp, int width, int length, int y0, double widthPen, string mode)
+        private void drawLineVert(Bitmap bmp, int width, int length, int y0, double widthPen, string mode)
         {
             if (mode == "right")
             {
@@ -723,7 +669,8 @@ namespace WindowsFormsApp1
                         }
                     }
                 }
-            } else
+            }
+            else
             {
                 int x = ctToPx(5) + ctToPx(0.5) + ctToPx(width);
                 if (y0 > 0)
@@ -812,7 +759,8 @@ namespace WindowsFormsApp1
 
                 // Flush all graphics changes to the bitmap
                 g.Flush();
-            } else
+            }
+            else
             {
                 x0 = ctToPx(5) + ctToPx(x0) + 1;
                 y0 = bmp.Height - ctToPx(20) - ctToPx(y0);
@@ -868,7 +816,7 @@ namespace WindowsFormsApp1
         }
         private void InputDiagrame(Bitmap format, Bitmap diagrame)
         {
-            if(diagrame != null)
+            if (diagrame != null)
             {
                 if (diagrame.Width > 1400 & diagrame.Height > 800)
                 {
@@ -877,21 +825,24 @@ namespace WindowsFormsApp1
                     Graphics g = Graphics.FromImage(format);
                     g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 180) / 2 - dgr.Height / 2 - 50));
                     g.Dispose();
-                } else if (diagrame.Width > 1400)
+                }
+                else if (diagrame.Width > 1400)
                 {
                     Bitmap diagrameResize = new Bitmap(diagrame, new Size(1400, diagrame.Height));
                     System.Drawing.Image dgr = (System.Drawing.Image)diagrameResize;
                     Graphics g = Graphics.FromImage(format);
                     g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 180) / 2 - dgr.Height / 2 - 50));
                     g.Dispose();
-                } else if (diagrame.Height > 800)
+                }
+                else if (diagrame.Height > 800)
                 {
                     Bitmap diagrameResize = new Bitmap(diagrame, new Size(diagrame.Width, 800));
                     System.Drawing.Image dgr = (System.Drawing.Image)diagrameResize;
                     Graphics g = Graphics.FromImage(format);
                     g.DrawImage(dgr, new Point((format.Width - 15) / 2 - dgr.Width / 2, (format.Height - 180) / 2 - dgr.Height / 2 - 50));
                     g.Dispose();
-                } else
+                }
+                else
                 {
                     System.Drawing.Image dgr = (System.Drawing.Image)diagrame;
                     Graphics g = Graphics.FromImage(format);
@@ -962,8 +913,8 @@ namespace WindowsFormsApp1
             {
                 cabinets.Add(new Cabinets { Value = (modulesH - 21) / 6, Resolution = "960", Side = "height" });
                 cabinets.Add(new Cabinets { Value = 3, Resolution = "1120", Side = "height" });
-            } 
-            
+            }
+
             if (modulesW == 2)
             {
                 cabinets.Add(new Cabinets { Value = 1, Resolution = "640", Side = "width" });
@@ -976,20 +927,22 @@ namespace WindowsFormsApp1
             if (modulesH == 4)
             {
                 cabinets.Add(new Cabinets { Value = 1, Resolution = "640", Side = "height" });
-            } else if (modulesW == 5)
+            }
+            else if (modulesW == 5)
             {
                 cabinets.Add(new Cabinets { Value = 1, Resolution = "800", Side = "height" });
-            } else
+            }
+            else
             {
                 new Exception("Высота кабинета слишком мала");
             }
 
-            if((modulesH >= 6) & (modulesH % 5 == 0))
+            if ((modulesH >= 6) & (modulesH % 5 == 0))
             {
                 cabinets.Add(new Cabinets { Value = modulesH * 160 / 800, Resolution = "800", Side = "height" });
             }
 
-                return cabinets;
+            return cabinets;
         }
         private void fillInfoCabinets(List<Cabinets> info)
         {
@@ -998,10 +951,10 @@ namespace WindowsFormsApp1
             int N = 0;
             foreach (var i in info)
             {
-                if((i.Side == "width"))
+                if ((i.Side == "width"))
                 {
                     moduleW.Add(i.Resolution);
-                } 
+                }
                 else if (i.Side == "height")
                 {
                     moduleH.Add(i.Resolution);
@@ -1016,7 +969,7 @@ namespace WindowsFormsApp1
                 operationOfInformationRows("add");
             }
 
-            foreach (string w in  moduleW)
+            foreach (string w in moduleW)
             {
                 foreach (string h in moduleH)
                 {
@@ -1028,13 +981,189 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void login_Form()
+        private void operationOfInformationRows(string func)
         {
-            this.Width = 420;
-            this.Height = 300;
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
+            if (func == "add")
+            {
+                if (count < 5)
+                {
+                    //
+                    //label - l_No
+                    //
+                    Label l_No_c = new Label();
+                    l_No_c.Text = $"{count + 1}";
+                    l_No_c.Name = $"l_No{count}";
+                    l_No_c.Size = new Size(15, 30);
+                    l_No_c.Location = new Point(105, 180 + 40 * (count - 1));
+                    Controls.Add(l_No_c);
+                    //
+                    // textbox - tb_sizeW_c
+                    //
+                    TextBox tb_sizeW_c = new TextBox();
+                    tb_sizeW_c.Size = new Size(40, 30);
+                    tb_sizeW_c.Name = $"tb_sizeW{count}";
+                    tb_sizeW_c.Location = new Point(l_No_c.Location.X + l_No_c.Width + 40, l_No_c.Location.Y);
+                    tb_sizeW_c.TextAlign = HorizontalAlignment.Center;
+                    Controls.Add(tb_sizeW_c);
+                    //
+                    //label - l_x
+                    //
+                    Label l_x_c = new Label();
+                    l_x_c.Text = "x";
+                    l_x_c.Name = $"l_x{count}";
+                    l_x_c.Size = new Size(15, 30);
+                    l_x_c.Location = new Point(tb_sizeW_c.Location.X + tb_sizeW_c.Width + 5, tb_sizeW_c.Location.Y);
+                    Controls.Add(l_x_c);
+                    //
+                    //textbox - tb_sizeH
+                    //
+                    TextBox tb_sizeH_c = new TextBox();
+                    tb_sizeH_c.Size = new Size(40, 30);
+                    tb_sizeH_c.Name = $"tb_sizeH{count}";
+                    tb_sizeH_c.Location = new Point(l_x_c.Location.X + l_x_c.Width + 5, l_x_c.Location.Y);
+                    tb_sizeH_c.TextAlign = HorizontalAlignment.Center;
+                    Controls.Add(tb_sizeH_c);
+                    //
+                    //textbox - tb_count
+                    //
+                    TextBox tb_count_c = new TextBox();
+                    tb_count_c.Size = new Size(40, 30);
+                    tb_count_c.Name = $"tb_count{count}";
+                    tb_count_c.Location = new Point(tb_sizeH_c.Location.X + tb_sizeH_c.Width + 40, tb_sizeH_c.Location.Y);
+                    tb_count_c.TextAlign = HorizontalAlignment.Center;
+                    Controls.Add(tb_count_c);
+                    count++;
+                    type.Add(new List<Control> { tb_sizeW_c, tb_sizeH_c, tb_count_c });
+                }
+            }
+            if (func == "rmv")
+            {
+                if (count > 1)
+                {
+                    var l_No = Controls.Find("l_No" + Convert.ToString(count - 1), true).FirstOrDefault() as Label;
+                    var l_x = Controls.Find("l_x" + Convert.ToString(count - 1), true).FirstOrDefault() as Label;
+                    var tb_sizeW = Controls.Find("tb_sizeW" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
+                    var tb_sizeH = Controls.Find("tb_sizeH" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
+                    var tb_count = Controls.Find("tb_count" + Convert.ToString(count - 1), true).FirstOrDefault() as TextBox;
+                    Controls.Remove(l_No);
+                    Controls.Remove(l_x);
+                    Controls.Remove(tb_sizeW);
+                    Controls.Remove(tb_sizeH);
+                    Controls.Remove(tb_count);
+                    count--;
+                }
+            }
         }
+        private void b_add_Click(object sender, EventArgs e)
+        {
+            operationOfInformationRows("add");
+        }
+
+        private void b_autoEquip_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                bool isNumW = Int32.TryParse(Controls.Find("tb_screenWidth", true).FirstOrDefault().Text, out int screenW);
+                bool isNumH = Int32.TryParse(Controls.Find("tb_screenHeight", true).FirstOrDefault().Text, out int screenH);
+                if (!isNumW || !isNumH)
+                {
+                    throw new Exception("Размеры экрана заданы неверно");
+                }
+                else if ((screenW % 320 != 0) | (screenH % 160 != 0))
+                {
+                    throw new Exception("Размеры экрана не кратны модулю 320x160");
+                }
+                else
+                {
+                    for (int i = 0; i < 5; i++)
+                    {
+                        operationOfInformationRows("rmv");
+                    }
+                    fillInfoCabinets(cabinetCalculator(screenW, screenH));
+                }
+            }
+            catch (Exception ex)
+            {
+                DialogResult error = MessageBox.Show(ex.Message, "ОШИБКА", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (error == DialogResult.OK)
+                {
+                    Controls.Find("tb_screenWidth", true).FirstOrDefault().Text = "";
+                    Controls.Find("tb_screenHeight", true).FirstOrDefault().Text = "";
+                    Controls.Find("tb_screenWidth", true).FirstOrDefault().Focus();
+                }
+            }
+        }
+
+        private void b_rmv_Click(object sender, EventArgs e)
+        {
+            operationOfInformationRows("rmv");
+        }
+        #endregion
+
+        #region Слаботочная схема
+
+        private void drawReceivingCards(Bitmap bmp, int resolution)
+        {
+            using (Bitmap img = (Bitmap)System.Drawing.Image.FromFile($"D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Pictures\\1_diagrame{resolution}px.png"))
+            {
+                using (Bitmap resizeImage = new Bitmap(img, new Size(resolution - 18, resolution - 18)))
+                {
+                    Graphics g = Graphics.FromImage(bmp);
+                    for (int x = 9; x < bmp.Width; x += resolution + resolution / 4)
+                    {
+                        for (int y = 9; y < bmp.Height; y += resolution + resolution / 4)
+                        {
+                            g.DrawImage(resizeImage, new Point(x, y));
+                        }
+                    }
+                }
+            }
+        }
+
+        private void boldBoardsOfCabinet(Bitmap bmp, int resolution)
+        {
+            using (Bitmap img = (Bitmap)System.Drawing.Image.FromFile($"D:\\Projects\\C# learning\\Console\\LEDsi_projects\\WindowsFormsApp1\\WindowsFormsApp1\\Pictures\\1_diagrame{resolution}px.png"))
+            {
+                using (Bitmap resizeImage = new Bitmap(img, new Size(resolution - 2, resolution - 2)))
+                {
+                    Graphics g = Graphics.FromImage(bmp);
+                    for (int x = 1; x < bmp.Width; x += resolution + resolution / 4)
+                    {
+                        for (int y = 1; y < bmp.Height; y += resolution + resolution / 4)
+                        {
+                            g.DrawImage(resizeImage, new Point(x, y));
+                        }
+                    }
+                }
+            }
+        }
+
+        private void insertTextInReceivingCard(Bitmap bmp, int resolution, string text)
+        {
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                int width = resolution - 18;
+                int height = resolution - 18;
+                for (int x = 9; x < bmp.Width; x += resolution + resolution / 4)
+                {
+                    for (int y = 9; y < bmp.Height; y += resolution + resolution / 4)
+                    {
+                        RectangleF rectf = new RectangleF(x, y, width, height);
+                        g.SmoothingMode = SmoothingMode.AntiAlias;
+                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                        g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+                        StringFormat strFormat = new StringFormat()
+                        {
+                            Alignment = StringAlignment.Center,
+                            LineAlignment = StringAlignment.Center
+                        };
+                        g.DrawString(text, new Font("GOST Type A", resolution / 10), Brushes.Black, rectf, strFormat);
+                    }
+                }
+            }
+        }
+
+        #endregion
     }
 }

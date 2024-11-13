@@ -13,7 +13,7 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        private int number = 1;
+        #region Переменные
         private string key = "";
         private int height;
         private int width;
@@ -58,11 +58,27 @@ namespace WindowsFormsApp1
             get { return key; }
             set { key = value; }
         }
+        #endregion
 
         public Form1()
         {
             InitializeComponent();
             Form1_InitComp();
+        }
+
+        private void Form1_InitComp()
+        {
+            //
+            // label - reg
+            //
+            Label reg = new Label();
+            Controls.Add(reg);
+            reg.Text = "Sign in";
+            reg.Width = 60;
+            reg.Height = 30;
+            reg.Location = new Point(button1.Location.X + button1.Width / 2 - reg.Width / 2, button1.Location.Y + button1.Height + 10);
+            reg.ForeColor = Color.Blue;
+            reg.Click += reg_Click;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -98,7 +114,7 @@ namespace WindowsFormsApp1
             //
             Button dataIN = new Button();
             dataIN.Size = new Size(100, 60);
-            dataIN.Text = "Enter data";
+            dataIN.Text = "Ввести данные";
             dataIN.Click += dataIN_Click;
             dataIN.Location = new Point(1200 - dataIN.Width - 30, 600 - dataIN.Height - 50);
             dataIN.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
@@ -249,7 +265,7 @@ namespace WindowsFormsApp1
                 Button pictSource = new Button();
                 pictSource.Size = new Size(150, 60);
                 pictSource.Location = new Point(dataIN.Location.X - 20 - pictSource.Width, dataIN.Location.Y);
-                pictSource.Text = "Draw diagrame by source";
+                pictSource.Text = "Нарисовать схему";
                 pictSource.Click += pictSource_Click;
                 pictSource.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
                 pictSource.Visible = true;
@@ -260,22 +276,33 @@ namespace WindowsFormsApp1
                 Button clspict1 = new Button();
                 clspict1.Size = new Size(150, 60);
                 clspict1.Location = new Point(pictSource.Location.X - clspict1.Width - 20, pictSource.Location.Y);
-                clspict1.Text = "Clear Mounting diagram";
+                clspict1.Text = "Очистить схему";
                 clspict1.Click += clspict1_Click; ;
                 clspict1.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
                 clspict1.Visible = true;
                 Controls.Add(clspict1);
                 //
-                // btn - to draw mounting diagrame
+                // btn - to draw mounting diagram
                 //
                 Button pict1 = new Button();
-                pict1.Size = new Size(100, 60);
+                pict1.Size = new Size(105, 60);
                 pict1.Location = new Point(dataIN.Location.X, dataIN.Location.Y - pict1.Height - 20);
-                pict1.Text = "Mounting diagram";
+                pict1.Text = "Монтажная схема";
                 pict1.Click += pict1_Click;
                 pict1.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
                 pict1.Visible = true;
                 Controls.Add(pict1);
+                //
+                //btn - to draw lowpower diagram
+                //
+                Button pict2 = new Button();
+                pict2.Size = new Size(105, 60);
+                pict2.Location = new Point(pict1.Location.X, pict1.Location.Y - pict2.Height - 20);
+                pict2.Text = "Слаботочная схема";
+                pict2.Click += pict2_Click;
+                pict2.Anchor = (AnchorStyles.Right | AnchorStyles.Bottom);
+                pict2.Visible = true;
+                Controls.Add(pict2);
                 //
                 //l - developer
                 //
@@ -387,6 +414,33 @@ namespace WindowsFormsApp1
             }
         }
 
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string login = "KoouZz",
+                password = "123321";
+            if ((this.textBox1.Text == login) && (this.textBox2.Text == password))
+            {
+                work_Form(null);
+            }
+            else
+            {
+                errorUser();
+            }
+        }
+
+        private void dataIN_Click(object sender, EventArgs e)
+        {
+            Form2 dataForm = new Form2("KoouZz", "123321", "dataIN");
+            dataForm.ShowDialog();
+            count = dataForm.Cnt;
+            ctrls = new List<List<Control>>(dataForm.Type);
+            work_Form("param");
+        }
+
+
+        #region Монтажная схема
         private void clspict1_Click(object sender, EventArgs e)
         {
             Control pb = Controls.Find("mnt diagrame", true).FirstOrDefault() as PictureBox;
@@ -465,22 +519,6 @@ namespace WindowsFormsApp1
             timer.Tick += (sender, e) => pb.Invalidate();
             timer.Start();
         }
-
-        private void Form1_InitComp()
-        {
-            //
-            // label - reg
-            //
-            Label reg = new Label();
-            Controls.Add(reg);
-            reg.Text = "Sign in";
-            reg.Width = 60;
-            reg.Height = 30;
-            reg.Location = new Point(button1.Location.X + button1.Width / 2 - reg.Width / 2, button1.Location.Y + button1.Height + 10);
-            reg.ForeColor = Color.Blue;
-            reg.Click += reg_Click;
-        }
-
         private void reg_Click(object sender, EventArgs e)
         {
             new Form2(textBox1.Text, textBox2.Text, "reg").ShowDialog();
@@ -503,30 +541,7 @@ namespace WindowsFormsApp1
             mntdgr.info.Add(Controls.Find("l_width0", true).FirstOrDefault().Text);
             mntdgr.info.Add(Controls.Find("l_height0", true).FirstOrDefault().Text);
             mntdgr.Diagrame = BM;
-            mntdgr.A3Format();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string login = "KoouZz",
-                password = "123321";
-            if ((this.textBox1.Text == login) && (this.textBox2.Text == password))
-            {
-                work_Form(null);
-            }
-            else
-            {
-                errorUser();
-            }
-        }
-
-        private void dataIN_Click(object sender, EventArgs e)
-        {
-            Form2 dataForm = new Form2("KoouZz", "123321", "dataIN");
-            dataForm.ShowDialog();
-            count = dataForm.Cnt;
-            ctrls = new List<List<Control>>(dataForm.Type);
-            work_Form("param");
+            mntdgr.A3Format("mounting");
         }
         private object chooseResolution(int c, int r)
         {
@@ -556,5 +571,32 @@ namespace WindowsFormsApp1
                 return null;
             }
         }
+        #endregion
+
+        #region Слаботочная схема
+
+        private void pict2_Click(object sender, EventArgs e)
+        {
+            Form2 LPDiagram = new Form2("KoouZz", "123321", "Lowpower");
+            LPDiagram.Col = Columns;
+            LPDiagram.Rws = Rows;
+            if (LPDiagram.info != null)
+            {
+                LPDiagram.info.Clear();
+            }
+            LPDiagram.info.Add(Controls.Find("tb_developer", true).FirstOrDefault().Text);
+            LPDiagram.info.Add(Controls.Find("tb_checker", true).FirstOrDefault().Text);
+            LPDiagram.info.Add(Controls.Find("tb_controller", true).FirstOrDefault().Text);
+            LPDiagram.info.Add(Controls.Find("tb_phase", true).FirstOrDefault().Text);
+            LPDiagram.info.Add(Controls.Find("tb_companyName", true).FirstOrDefault().Text);
+            LPDiagram.info.Add(Controls.Find("tb_moduleStep", true).FirstOrDefault().Text);
+            LPDiagram.info.Add(Controls.Find("l_width0", true).FirstOrDefault().Text);
+            LPDiagram.info.Add(Controls.Find("l_height0", true).FirstOrDefault().Text);
+            LPDiagram.Type.Add( new List<Control> { Controls.Find("tb_moduleStep", true).FirstOrDefault(), Controls.Find("l_width0", true).FirstOrDefault(), Controls.Find("l_height0", true).FirstOrDefault() });
+            LPDiagram.Diagrame = BM;
+            LPDiagram.A3Format("lowpower");
+        }
+
+        #endregion
     }
 }
